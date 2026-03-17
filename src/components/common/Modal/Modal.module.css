@@ -1,0 +1,66 @@
+/**
+ * Modal.module.css — Shell styles for the generic Modal.
+ *
+ * Only backdrop + panel + close button live here.
+ * Feature-specific content styles (e.g. header, sprite, tabs) stay in
+ * the consuming component's own CSS module (e.g. PokemonModal.module.css).
+ */
+
+/* Backdrop — full viewport overlay */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Panel — the white/dark card */
+.panel {
+  position: relative;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: var(--color-surface);
+  border-radius: 20px;
+  padding: 2rem 1.75rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Custom scrollbar — subtle on both themes */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.panel::-webkit-scrollbar       { width: 5px; }
+.panel::-webkit-scrollbar-track { background: transparent; }
+.panel::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 9999px; }
+
+/* Close (X) button — top-right corner of panel */
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  transition: background-color 0.15s, color 0.15s;
+  line-height: 1;
+  padding: 0;
+}
+
+.closeBtn:hover {
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+}

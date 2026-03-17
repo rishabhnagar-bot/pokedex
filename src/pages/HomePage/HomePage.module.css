@@ -1,0 +1,11 @@
+.page {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.main {
+  /* Constrain content width on large screens */
+  max-width: 1400px;
+  margin: 0 auto;
+}

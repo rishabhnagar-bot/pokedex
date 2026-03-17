@@ -1,0 +1,70 @@
+/* Sticky wrapper — sits just below the Navbar (z-index 99 keeps it under modal/drawer) */
+.bar {
+  position: sticky;
+  top: 64px; /* matches Navbar height */
+  z-index: 99;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Horizontally scrollable chip row */
+.chipRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.75rem 2rem;
+  scrollbar-width: none; /* Firefox */
+}
+
+.chipRow::-webkit-scrollbar {
+  display: none; /* Chrome / Safari */
+}
+
+/* ── "All" chip ─────────────────────────────────────────── */
+.allChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  border: 2px solid var(--color-border);
+  background-color: transparent;
+  color: var(--color-text-muted);
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.allChip:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.allChipActive {
+  background-color: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+/* ── Skeleton loading chips ────────────────────────────── */
+.skeleton {
+  display: inline-flex;
+  height: 28px;
+  border-radius: 9999px;
+  background-color: var(--color-border);
+  flex-shrink: 0;
+  /* Vary widths with nth-child so they look natural */
+  animation: shimmer 1.4s ease infinite;
+}
+
+.skeleton:nth-child(odd)  { width: 64px; }
+.skeleton:nth-child(even) { width: 52px; }
+.skeleton:nth-child(3n)   { width: 72px; }
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1;   }
+}

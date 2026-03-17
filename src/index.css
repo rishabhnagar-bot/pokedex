@@ -1,0 +1,66 @@
+/* ============================================================
+   index.css — Global base styles & CSS design tokens
+   ============================================================
+   CSS variables (--color-*) are used throughout all component
+   CSS modules. They switch automatically based on [data-theme]
+   set by ThemeContext.tsx on the <html> element.
+   ============================================================ */
+
+/* Light theme (default) */
+:root,
+[data-theme='light'] {
+  --color-bg: #f5f5f5;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f0f0f0;
+  --color-border: #e0e0e0;
+  --color-text: #1a1a1a;
+  --color-text-muted: #6b7280;
+  --color-primary: #6366f1;
+  --color-on-primary: #ffffff;
+  --color-accent: #f43f5e;
+  --color-error: #ef4444;
+}
+
+/* Dark theme */
+[data-theme='dark'] {
+  --color-bg: #111827;
+  --color-surface: #1f2937;
+  --color-surface-alt: #374151;
+  --color-border: #374151;
+  --color-text: #f9fafb;
+  --color-text-muted: #9ca3af;
+  --color-primary: #818cf8;
+  --color-on-primary: #111827;
+  --color-accent: #fb7185;
+  --color-error: #f87171;
+}
+
+/* ============================================================
+   Global reset & base
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+#root {
+  min-height: 100vh;
+}

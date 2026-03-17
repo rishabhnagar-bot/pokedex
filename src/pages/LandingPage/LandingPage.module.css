@@ -1,0 +1,160 @@
+/* ── Page shell ── */
+.page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  /* Deep purple gradient — matches Figma cover exactly */
+  background: linear-gradient(
+    135deg,
+    #12082a 0%,
+    #1e1040 35%,
+    #2d1b69 70%,
+    #1e1040 100%
+  );
+  /* Subtle nebula overlay */
+  background-image:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(99, 51, 178, 0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 15% 75%, rgba(59, 28, 130, 0.4) 0%, transparent 55%),
+    linear-gradient(135deg, #12082a 0%, #1e1040 35%, #2d1b69 70%, #1e1040 100%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 2rem;
+}
+
+/* ── Star field ── */
+.starField {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #fff;
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0%   { opacity: inherit; }
+  50%  { opacity: 0.1;     }
+  100% { opacity: inherit; }
+}
+
+/* ── Content column ── */
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.75rem;
+  max-width: 560px;
+}
+
+/* ── Tag row (matches Figma badges) ── */
+.tags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.tagDate {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.tagReady {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background-color: #4f3fa0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.tagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #a78bfa;
+  flex-shrink: 0;
+}
+
+/* ── Title ── */
+.title {
+  margin: 0;
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+/* ── Subtitle ── */
+.subtitle {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 400;
+  text-align: center;
+}
+
+/* ── CTA button ── */
+.startBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 2rem;
+  border-radius: 9999px;
+  background-color: #7c3aed;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  box-shadow: 0 0 32px rgba(124, 58, 237, 0.45), 0 4px 16px rgba(0,0,0,0.3);
+  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.startBtn:hover {
+  background-color: #6d28d9;
+  box-shadow: 0 0 48px rgba(124, 58, 237, 0.6), 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.arrow {
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.startBtn:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .page {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .content {
+    max-width: 100%;
+  }
+}

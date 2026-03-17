@@ -1,0 +1,24 @@
+/**
+ * PokemonTypeBadge.module.css
+ *
+ * The background color is applied inline from the component (TYPE_COLORS lookup).
+ * Text is always white since all type colors are dark/saturated enough for contrast.
+ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: #fff;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  /* Slight shadow so badges are readable on both light and dark surfaces */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  user-select: none;
+}

@@ -1,0 +1,34 @@
+.section {
+  padding: 1rem 2rem 3rem;
+}
+
+/* Responsive grid: auto-fill columns, min 160px, max 1fr */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Centred state container (loading / error / empty) */
+.centred {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+}
+
+.error {
+  color: var(--color-error);
+  text-align: center;
+}
+
+.empty {
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.loadMoreWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
