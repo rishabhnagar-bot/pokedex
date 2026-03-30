@@ -16,7 +16,7 @@
  */
 
 import { useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import logoUrl from '../../assets/pokemon-ball-logo.png';
 import styles from './LandingPage.module.css';
 
@@ -49,7 +49,7 @@ function useStars(count: number): Star[] {
 
 const pageVariants = {
   visible: { opacity: 1 },
-  exit:    { opacity: 0, transition: { duration: 0.5, ease: 'easeInOut' } },
+  exit:    { opacity: 0, transition: { duration: 0.5, ease: 'easeInOut' as const } },
 };
 
 const containerVariants = {
@@ -59,7 +59,7 @@ const containerVariants = {
 
 const itemVariants = {
   hidden:  { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
 };
 
 // ── Component ─────────────────────────────────────────────────────────────────
