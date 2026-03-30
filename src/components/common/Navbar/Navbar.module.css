@@ -1,3 +1,8 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   Navbar.module.css — Game HUD styling
+   Always dark regardless of light/dark theme so it feels like a game overlay.
+   ══════════════════════════════════════════════════════════════════════════ */
+
 .navbar {
   position: sticky;
   top: 0;
@@ -6,44 +11,385 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  height: 64px;
-  background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  height: 5rem;
+
+  /* ── Game HUD: dark translucent glass ── */
+  background: linear-gradient(
+    to right,
+    rgba(8, 0, 22, 0.97) 0%,
+    rgba(16, 4, 45, 0.97) 40%,
+    rgba(16, 4, 45, 0.97) 60%,
+    rgba(8, 0, 22, 0.97) 100%
+  );
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),   /* top highlight line */
+    0 4px 32px rgba(99, 102, 241, 0.22),        /* indigo underglow */
+    0 1px 0 rgba(0, 0, 0, 0.6);                 /* crisp bottom edge */
 }
 
+/* ── CRT scanline texture ─────────────────────────────────────────────── */
+.navbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(255, 255, 255, 0.013) 2px,
+    rgba(255, 255, 255, 0.013) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Animated type-spectrum bar ───────────────────────────────────────── */
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    #ee8130, #f7d02c, #7ac74c, #6390f0,
+    #96d9d6, #6f35fc, #f95587, #a33ea1,
+    #ee8130
+  );
+  background-size: 300% 100%;
+  animation: rainbowBar 5s linear infinite;
+  z-index: 1;
+}
+
+@keyframes rainbowBar {
+  0%   { background-position: 0% 0%;   }
+  100% { background-position: 300% 0%; }
+}
+
+/* ── Logo ─────────────────────────────────────────────────────────────── */
 .logo {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.6rem;
   background: none;
   border: none;
-  padding: 0;
+  padding: 0.25rem 0.5rem;
   cursor: pointer;
-  border-radius: 6px;
-  transition: opacity 0.15s;
+  border-radius: 8px;
+  transition: filter 0.2s ease;
 }
 
 .logo:hover {
-  opacity: 0.7;
+  filter: brightness(1.2);
+}
+
+.logoImg {
+  width: 2.75rem;
+  height: 2.75rem;
+  object-fit: contain;
+  animation: ballSpin 7s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(167, 139, 250, 0.7));
+}
+
+@keyframes ballSpin {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
 }
 
 .logoText {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-text);
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  /* Gold → white → gold gradient */
+  background: linear-gradient(135deg, #ffd700 0%, #ffffff 45%, #ffd700 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: logoShimmer 4s ease-in-out infinite alternate;
 }
 
-.actions {
+@keyframes logoShimmer {
+  0%   { background-position: 0% 50%;   }
+  100% { background-position: 100% 50%; }
+}
+
+/* ── Center: Pokéball team-slot indicators ────────────────────────────── */
+.slotWrapper {
+  position: relative;
+}
+
+/* Arrow tip — upward triangle between slot and bubble */
+.slotWrapper[data-name]:hover::before {
+  content: '';
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: rgba(155, 66, 245, 0.8);
+  pointer-events: none;
+  z-index: 21;
+}
+
+/* Tooltip bubble — below the slot circle */
+.slotWrapper[data-name]:hover::after {
+  content: attr(data-name);
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #1a0535 0%, #3b0f72 100%);
+  color: #e9d5ff;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  text-transform: capitalize;
+  letter-spacing: 0.06em;
+  z-index: 21;
+  border: 1px solid rgba(155, 66, 245, 0.75);
+  box-shadow:
+    0 0 12px rgba(155, 66, 245, 0.45),
+    0 4px 14px rgba(0, 0, 0, 0.55);
+}
+
+/* First slot — align bubble to left edge */
+.slotWrapper:first-child[data-name]:hover::after {
+  left: 0;
+  transform: none;
+}
+
+/* Second slot — slight left nudge */
+.slotWrapper:nth-child(2)[data-name]:hover::after {
+  left: -50%;
+  transform: none;
+}
+
+/* Last slot — align bubble to right edge */
+.slotWrapper:last-child[data-name]:hover::after {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+/* Second-to-last slot — slight right nudge */
+.slotWrapper:nth-last-child(2)[data-name]:hover::after {
+  left: auto;
+  right: -50%;
+  transform: none;
+}
+
+.teamSlots {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.45rem;
+  z-index: 2;
 }
 
+.slot {
+  width: 2.55rem;
+  height: 2.55rem;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slotSprite {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Filled slot — violet glow around pokemon portrait */
+.slotFilled {
+  background: rgba(155, 66, 245, 0.15);
+  border-color: #9b42f5;
+  box-shadow:
+    0 0 6px rgba(155, 66, 245, 0.7),
+    0 0 14px rgba(155, 66, 245, 0.35);
+  animation: slotPulse 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes slotPulse {
+  from { box-shadow: 0 0 5px rgba(155, 66, 245, 0.6), 0 0 10px rgba(155, 66, 245, 0.25); }
+  to   { box-shadow: 0 0 10px rgba(155, 66, 245, 0.95), 0 0 22px rgba(155, 66, 245, 0.5); }
+}
+
+/* All 6 filled — team complete ring */
+.slotsComplete {
+  animation: teamComplete 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes teamComplete {
+  from { filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5)); }
+  to   { filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.95)); }
+}
+
+/* ── Right: action area ───────────────────────────────────────────────── */
+.actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ── Shared navbar button overrides ──────────────────────────────────── */
+.navBtn {
+  font-size: 0.72rem !important;
+  padding: 0.38rem 1rem !important;
+  letter-spacing: 0.07em !important;
+  text-transform: uppercase !important;
+  transition: box-shadow 0.2s ease, transform 0.15s ease, opacity 0.15s !important;
+}
+
+.navBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.55), 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Battle Team button — special pulse when team is full */
+.navBtnFull {
+  animation: battlePulse 1.6s ease-in-out infinite !important;
+}
+
+@keyframes battlePulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(99, 102, 241, 0.4); }
+  50%       { box-shadow: 0 0 22px rgba(99, 102, 241, 0.9), 0 0 40px rgba(99, 102, 241, 0.35); }
+}
+
+/* ── Theme toggle — circular game icon ───────────────────────────────── */
 .themeToggle {
-  background: none;
-  border: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   cursor: pointer;
-  font-size: 1.25rem;
-  padding: 0.25rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+  color: white;
+  padding: 0;
   line-height: 1;
+}
+
+.themeToggle:hover {
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+/* ══ Light-theme overrides ══════════════════════════════════════════════ */
+:global([data-theme='light']) .navbar {
+  background: linear-gradient(
+    to right,
+    rgba(248, 247, 255, 0.98) 0%,
+    rgba(243, 241, 255, 0.98) 40%,
+    rgba(243, 241, 255, 0.98) 60%,
+    rgba(248, 247, 255, 0.98) 100%
+  );
+  box-shadow:
+    inset 0 -1px 0 rgba(99, 102, 241, 0.25),
+    0 4px 24px rgba(99, 102, 241, 0.12),
+    0 1px 0 rgba(99, 102, 241, 0.1);
+}
+
+:global([data-theme='light']) .navbar::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(99, 102, 241, 0.025) 2px,
+    rgba(99, 102, 241, 0.025) 4px
+  );
+}
+
+:global([data-theme='light']) .logoText {
+  background: linear-gradient(135deg, #4338ca 0%, #7c3aed 45%, #4338ca 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:global([data-theme='light']) .slot {
+  border-color: rgba(99, 102, 241, 0.35);
+  background: rgba(99, 102, 241, 0.07);
+}
+
+:global([data-theme='light']) .themeToggle {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.35);
+  color: #4338ca;
+}
+
+:global([data-theme='light']) .themeToggle:hover {
+  background: rgba(99, 102, 241, 0.18);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1.25rem;
+  }
+  .actions {
+    gap: 0.5rem;
+  }
+  .slot {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+  .teamSlots {
+    gap: 0.35rem;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Hide center slots — too crowded, rely on badge instead */
+  .teamSlots {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 0.875rem;
+    height: 4.5rem;
+  }
+  .logoText {
+    font-size: 1.1rem;
+  }
+  .logoImg {
+    width: 2rem;
+    height: 2rem;
+  }
+  .actions {
+    gap: 0.35rem;
+  }
+  .navBtn {
+    font-size: 0.65rem !important;
+    padding: 0.32rem 0.75rem !important;
+  }
 }

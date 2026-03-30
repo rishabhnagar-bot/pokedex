@@ -1,38 +1,34 @@
 /* ============================================================
    index.css — Global base styles & CSS design tokens
-   ============================================================
-   CSS variables (--color-*) are used throughout all component
-   CSS modules. They switch automatically based on [data-theme]
-   set by ThemeContext.tsx on the <html> element.
    ============================================================ */
 
-/* Light theme (default) */
+/* Light theme */
 :root,
 [data-theme='light'] {
-  --color-bg: #f5f5f5;
-  --color-surface: #ffffff;
-  --color-surface-alt: #f0f0f0;
-  --color-border: #e0e0e0;
-  --color-text: #1a1a1a;
-  --color-text-muted: #6b7280;
-  --color-primary: #6366f1;
-  --color-on-primary: #ffffff;
-  --color-accent: #f43f5e;
-  --color-error: #ef4444;
+  --color-bg:           #eef0ff;
+  --color-surface:      #ffffff;
+  --color-surface-alt:  #f0f1ff;
+  --color-border:       #dde0f5;
+  --color-text:         #1a1a2e;
+  --color-text-muted:   #6b7280;
+  --color-primary:      #6366f1;
+  --color-on-primary:   #ffffff;
+  --color-accent:       #f43f5e;
+  --color-error:        #ef4444;
 }
 
 /* Dark theme */
 [data-theme='dark'] {
-  --color-bg: #111827;
-  --color-surface: #1f2937;
-  --color-surface-alt: #374151;
-  --color-border: #374151;
-  --color-text: #f9fafb;
-  --color-text-muted: #9ca3af;
-  --color-primary: #818cf8;
-  --color-on-primary: #111827;
-  --color-accent: #fb7185;
-  --color-error: #f87171;
+  --color-bg:           #0d0d1a;
+  --color-surface:      #16162a;
+  --color-surface-alt:  #1f1f38;
+  --color-border:       #2a2a45;
+  --color-text:         #f0f0ff;
+  --color-text-muted:   #9ca3af;
+  --color-primary:      #818cf8;
+  --color-on-primary:   #0d0d1a;
+  --color-accent:       #fb7185;
+  --color-error:        #f87171;
 }
 
 /* ============================================================

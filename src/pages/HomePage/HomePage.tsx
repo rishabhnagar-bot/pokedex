@@ -1,34 +1,25 @@
 /**
  * HomePage.tsx — The single page of this application.
- *
- * Owns all top-level state coordination:
- *   - Which Pokémon is selected (opens PokemonModal)
- *   - Whether the TeamDrawer is open
- *
- * Data flow:
- *   usePokemonList  → raw list of all loaded Pokémon
- *   useTypeFilter   → filtered subset based on active type chip
- *   useTeam         → current team members (from TeamContext)
- *
- * Layout:
- *   <Navbar>           ← sticky top bar with theme toggle + Battle Team button
- *   <TypeFilter>       ← horizontal type chip row
- *   <PokemonGrid>      ← responsive card grid with Load More
- *   <PokemonModal>     ← portal-style modal (conditionally rendered)
- *   <TeamDrawer>       ← slide-in right drawer
  */
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Navbar } from '../../components/common/Navbar';
 import { TypeFilter } from '../../components/TypeFilter';
+import { SearchBar } from '../../components/SearchBar';
 import { PokemonGrid } from '../../components/PokemonGrid';
 import { PokemonModal } from '../../components/PokemonModal';
 import { TeamDrawer } from '../../components/TeamDrawer';
+import { CaughtAnimation } from '../../components/CaughtAnimation';
+import { CardOpenEffect } from '../../components/CardOpenEffect';
 import { usePokemonList } from '../../hooks/usePokemonList';
 import { useTypeFilter } from '../../hooks/useTypeFilter';
+import { useSearch } from '../../hooks/useSearch';
 import { useTeam } from '../../hooks/useTeam';
-import type { TeamMember } from '../../types';
+import type { PokemonListItem, TeamMember } from '../../types';
 import { MAX_TEAM_SIZE } from '../../utils/constants';
+import { playCatchSound, getTier } from '../../utils/catchSound';
+import type { SoundTier } from '../../utils/catchSound';
+import { fetchPokemonDetail } from '../../api';
 import styles from './HomePage.module.css';
 
 interface HomePageProps {
@@ -38,69 +29,100 @@ interface HomePageProps {
 export function HomePage({ onBack }: HomePageProps) {
   const [selectedPokemonId, setSelectedPokemonId] = useState<number | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [caughtPokemon, setCaughtPokemon] = useState<{ name: string; sprite: string; tier: SoundTier } | null>(null);
+  const [openingCard, setOpeningCard] = useState<{ sprite: string; name: string } | null>(null);
 
   // Data hooks
   const { pokemon, isLoading, isInitialLoading, error, hasMore, loadMore } = usePokemonList();
   const { types, activeType, setActiveType, filterPokemon, isLoading: typesLoading } = useTypeFilter();
-  const { team, addMember, clearTeam } = useTeam();
+  const { query, setQuery, searchPokemon, hasQuery } = useSearch();
+  const { team, addMember, removeMember, clearTeam, updateMemberStats } = useTeam();
 
-  // Derived data
-  const filteredPokemon = filterPokemon(pokemon);
+  // Derived data — type filter → search filter → display
+  const typeFiltered = filterPokemon(pokemon);
+  const visiblePokemon = searchPokemon(typeFiltered);
   const teamIds = new Set(team.map((m) => m.id));
   const isTeamFull = team.length >= MAX_TEAM_SIZE;
 
+  const handleCardClick = useCallback((p: PokemonListItem) => {
+    setOpeningCard({ sprite: p.sprite, name: p.name });
+    setSelectedPokemonId(p.id);
+  }, []);
+
   const handleAddTeam = (member: TeamMember) => {
     addMember(member);
+    const tier = getTier(member.types.map((t) => t.name));
+    playCatchSound(tier);
+    setCaughtPokemon({ name: member.name, sprite: member.sprite, tier });
+    fetchPokemonDetail(member.id).then((detail) => {
+      updateMemberStats(member.id, detail.stats);
+    }).catch(() => {});
   };
 
   const handleReset = () => {
     clearTeam();
     setActiveType(null);
+    setQuery('');
   };
 
   return (
     <div className={styles.page}>
       <Navbar
-        teamCount={team.length}
+        team={team}
         onTeamClick={() => setIsDrawerOpen(true)}
         onBack={onBack}
         onReset={handleReset}
       />
 
       <main className={styles.main}>
-        {/* Type filter chips — always rendered; shows skeleton while loading */}
         <TypeFilter
           types={types}
           activeType={activeType}
           onSelect={setActiveType}
           isLoading={typesLoading}
+          searchSlot={
+            <SearchBar
+              query={query}
+              onChange={setQuery}
+              resultCount={visiblePokemon.length}
+              hasQuery={hasQuery}
+            />
+          }
         />
 
-        {/* Pokémon grid */}
         <PokemonGrid
-          pokemon={filteredPokemon}
+          pokemon={visiblePokemon}
           teamIds={teamIds}
           isTeamFull={isTeamFull}
           isInitialLoading={isInitialLoading}
           isLoadingMore={isLoading && !isInitialLoading}
           error={error}
-          hasMore={hasMore && !activeType} // Hide "Load More" when type filter is active
-          onCardClick={setSelectedPokemonId}
+          hasMore={hasMore && !activeType && !hasQuery}
+          onCardClick={handleCardClick}
           onAddTeam={handleAddTeam}
+          onRemoveTeam={removeMember}
           onLoadMore={loadMore}
         />
       </main>
 
-      {/* Detail modal */}
       <PokemonModal
         pokemonId={selectedPokemonId}
         onClose={() => setSelectedPokemonId(null)}
       />
 
-      {/* Team drawer */}
       <TeamDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
+      />
+
+      <CaughtAnimation
+        pokemon={caughtPokemon}
+        onDone={() => setCaughtPokemon(null)}
+      />
+
+      <CardOpenEffect
+        pokemon={openingCard}
+        onDone={() => setOpeningCard(null)}
       />
     </div>
   );

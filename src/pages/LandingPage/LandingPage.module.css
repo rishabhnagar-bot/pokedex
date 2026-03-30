@@ -4,19 +4,19 @@
   min-height: 100vh;
   width: 100%;
   overflow: hidden;
-  /* Deep purple gradient — matches Figma cover exactly */
+  /* Vivid violet gradient centred on #9b42f5 */
   background: linear-gradient(
     135deg,
-    #12082a 0%,
-    #1e1040 35%,
-    #2d1b69 70%,
-    #1e1040 100%
+    #1a0535 0%,
+    #2e0a5a 35%,
+    #4a1a8a 70%,
+    #2e0a5a 100%
   );
-  /* Subtle nebula overlay */
+  /* Nebula overlay tuned to violet accent */
   background-image:
-    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(99, 51, 178, 0.35) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 15% 75%, rgba(59, 28, 130, 0.4) 0%, transparent 55%),
-    linear-gradient(135deg, #12082a 0%, #1e1040 35%, #2d1b69 70%, #1e1040 100%);
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(155, 66, 245, 0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 15% 75%, rgba(100, 30, 200, 0.45) 0%, transparent 55%),
+    linear-gradient(135deg, #1a0535 0%, #2e0a5a 35%, #4a1a8a 70%, #2e0a5a 100%);
 
   display: flex;
   align-items: center;
@@ -94,6 +94,15 @@
   border-radius: 50%;
   background-color: #a78bfa;
   flex-shrink: 0;
+}
+
+/* ── Hero Pokéball ── */
+.heroBall {
+  width: 5.5rem;
+  height: 5.5rem;
+  object-fit: contain;
+  filter: drop-shadow(0 0 24px rgba(167, 139, 250, 0.7))
+          drop-shadow(0 0 48px rgba(124, 58, 237, 0.4));
 }
 
 /* ── Title ── */

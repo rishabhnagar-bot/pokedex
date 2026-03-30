@@ -1,0 +1,365 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   CaughtAnimation.module.css — Per-tier 3D entrance + zoom-through-screen exit
+
+   TIER MAP
+   ┌─────────────┬──────────┬──────────────────────────────────────────────┐
+   │ tier         │ duration │ effect                                        │
+   ├─────────────┼──────────┼──────────────────────────────────────────────┤
+   │ legendary   │  2.6 s   │ slow drift in from other dimension + deep zoom│
+   │ heavy       │  1.9 s   │ aggressive slam + explosive zoom burst        │
+   │ nature      │  2.0 s   │ smooth arc from below + gentle zoom           │
+   │ tricky      │  1.7 s   │ quick spin-flip + snappy zoom pop             │
+   │ normal      │  1.6 s   │ simple flip + clean zoom out                  │
+   └─────────────┴──────────┴──────────────────────────────────────────────┘
+
+   EXIT MECHANIC
+   All tiers end with the sprite scaling to ~20× its size, filling the entire
+   viewport and bursting through the screen, then fading to transparent.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Backdrop ─────────────────────────────────────────────────────────────── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  /* background + duration set per-tier below */
+}
+
+/* ── Stage ────────────────────────────────────────────────────────────────── */
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ── Rings (Pokéball burst) ───────────────────────────────────────────────── */
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  width: 9rem;
+  height: 9rem;
+  pointer-events: none;
+  /* animation-duration + border-color overridden per tier */
+  animation: ringExpand 0.8s ease-out forwards;
+}
+.ring1 { animation-delay: 0s;    }
+.ring2 { animation-delay: 0.13s; }
+.ring3 { animation-delay: 0.26s; }
+
+@keyframes ringExpand {
+  0%   { transform: scale(0.3); opacity: 1; }
+  100% { transform: scale(4);   opacity: 0; }
+}
+
+/* ── Sprite base ──────────────────────────────────────────────────────────── */
+.sprite {
+  width: 10rem;
+  height: 10rem;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.55));
+  animation-fill-mode: forwards;
+  /* animation-name + animation-duration set per tier */
+}
+
+/* ── Label ────────────────────────────────────────────────────────────────── */
+.label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  animation: labelUp 0.35s ease-out both;
+  /* animation-delay set per tier */
+}
+@keyframes labelUp {
+  from { transform: translateY(14px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: capitalize;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.02em;
+}
+.sub {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   TIER: LEGENDARY  (Dragon · Psychic · Ghost)
+   Slow, sweeping entrance from another dimension. Two-axis 3D rotation.
+   Deep purple backdrop. Gold/silver/white rings. Huge dramatic zoom exit.
+   ════════════════════════════════════════════════════════════════════════════ */
+.tierLegendary {
+  background: rgba(28, 0, 58, 0.7);
+  animation: backdropFade 3.4s ease forwards;
+}
+.tierLegendary .ring1 { border: 3px solid #ffd700; animation-duration: 1.1s; }
+.tierLegendary .ring2 { border: 3px solid #c0c0c0; animation-duration: 1.1s; }
+.tierLegendary .ring3 { border: 3px solid #ffffff; animation-duration: 1.1s; }
+.tierLegendary .sprite {
+  animation-name: spriteLegendary;
+  animation-duration: 3.4s;
+  animation-timing-function: ease;
+}
+.tierLegendary .label { animation-delay: 0.7s; }
+
+@keyframes spriteLegendary {
+  /* ── Entrance: dual-axis sweep from void (same absolute ms) ── */
+  0% {
+    transform: perspective(900px) rotateY(-200deg) rotateX(30deg) scale(0.15);
+    opacity: 0;
+    filter: drop-shadow(0 0 20px #9b59b6) brightness(2);
+  }
+  15% {
+    transform: perspective(900px) rotateY(-20deg) rotateX(-5deg) scale(1.18);
+    opacity: 1;
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,0.55)) brightness(1.3);
+  }
+  23% {
+    transform: perspective(900px) rotateY(8deg) rotateX(2deg) scale(0.96);
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,0.55)) brightness(1);
+  }
+  29% {
+    transform: perspective(900px) rotateY(0deg) rotateX(0deg) scale(1);
+    opacity: 1;
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,0.55));
+  }
+  /* ── Hold — extended ── */
+  44% {
+    transform: scale(1) translateY(-4px);
+    opacity: 1;
+    filter: drop-shadow(0 16px 32px rgba(0,0,0,0.5));
+  }
+  68% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  /* ── Exit: zoom through screen ── */
+  79% { transform: scale(2.5);  opacity: 1; filter: drop-shadow(0 0 40px #9b59b6); }
+  89% { transform: scale(9);    opacity: 0.6; }
+  100%{ transform: scale(22);   opacity: 0; filter: none; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   TIER: HEAVY  (Fire · Fighting · Electric · Steel)
+   Fast, aggressive slam down from above. Hard bounce. Dark red backdrop.
+   Orange/red/yellow rings. Explosive fast zoom exit.
+   ════════════════════════════════════════════════════════════════════════════ */
+.tierHeavy {
+  background: rgba(60, 10, 0, 0.72);
+  animation: backdropFade 2.7s ease forwards;
+}
+.tierHeavy .ring1 { border: 3px solid #ff6600; animation-duration: 0.6s; }
+.tierHeavy .ring2 { border: 3px solid #ee1515; animation-duration: 0.6s; }
+.tierHeavy .ring3 { border: 3px solid #f7d02c; animation-duration: 0.6s; }
+.tierHeavy .sprite {
+  animation-name: spriteHeavy;
+  animation-duration: 2.7s;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.tierHeavy .label { animation-delay: 0.45s; }
+
+@keyframes spriteHeavy {
+  /* ── Entrance: slam from above with hard bounce (same absolute ms) ── */
+  0% {
+    transform: perspective(700px) rotateX(90deg) scale(0.4) translateY(-60px);
+    opacity: 0;
+    filter: drop-shadow(0 0 30px #ff6600) brightness(2.5);
+  }
+  13% {
+    transform: perspective(700px) rotateX(-12deg) scale(1.25) translateY(8px);
+    opacity: 1;
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6)) brightness(1.4);
+  }
+  18% {
+    transform: perspective(700px) rotateX(6deg) scale(0.94) translateY(-3px);
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,0.55)) brightness(1);
+  }
+  24% {
+    transform: perspective(700px) rotateX(0deg) scale(1) translateY(0);
+    opacity: 1;
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,0.55));
+  }
+  /* ── Hold with subtle shake — extended ── */
+  30% { transform: scale(1) translateX(-3px); opacity: 1; }
+  32% { transform: scale(1) translateX(3px);  opacity: 1; }
+  37% { transform: scale(1) translateX(0);    opacity: 1; }
+  72% { transform: scale(1) translateX(0);    opacity: 1; }
+  /* ── Exit: explosive burst zoom ── */
+  72% { transform: scale(1);   opacity: 1; filter: drop-shadow(0 0 30px #ff6600); }
+  80% { transform: scale(4);   opacity: 0.8; }
+  90% { transform: scale(12);  opacity: 0.3; }
+  100%{ transform: scale(22);  opacity: 0; filter: none; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   TIER: NATURE  (Water · Grass · Ice · Ground · Rock)
+   Rises smoothly from below with a rotateX arc. Dark green backdrop.
+   Green/teal/blue rings. Smooth gradual zoom exit.
+   ════════════════════════════════════════════════════════════════════════════ */
+.tierNature {
+  background: rgba(0, 30, 18, 0.68);
+  animation: backdropFade 2.8s ease forwards;
+}
+.tierNature .ring1 { border: 3px solid #7ac74c; animation-duration: 0.85s; }
+.tierNature .ring2 { border: 3px solid #6abebc; animation-duration: 0.85s; }
+.tierNature .ring3 { border: 3px solid #6390f0; animation-duration: 0.85s; }
+.tierNature .sprite {
+  animation-name: spriteNature;
+  animation-duration: 2.8s;
+  animation-timing-function: ease;
+}
+.tierNature .label { animation-delay: 0.52s; }
+
+@keyframes spriteNature {
+  /* ── Entrance: arc up from below (same absolute ms) ── */
+  0% {
+    transform: perspective(800px) rotateX(-80deg) scale(0.35) translateY(40px);
+    opacity: 0;
+    filter: drop-shadow(0 0 18px #7ac74c) brightness(1.8);
+  }
+  16% {
+    transform: perspective(800px) rotateX(10deg) scale(1.12) translateY(-5px);
+    opacity: 1;
+    filter: drop-shadow(0 10px 24px rgba(0,0,0,0.5)) brightness(1.2);
+  }
+  23% {
+    transform: perspective(800px) rotateX(-4deg) scale(0.97) translateY(2px);
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,0.5)) brightness(1);
+  }
+  29% {
+    transform: perspective(800px) rotateX(0deg) scale(1) translateY(0);
+    opacity: 1;
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,0.5));
+  }
+  /* ── Hold — gentle float, extended ── */
+  41% { transform: scale(1) translateY(-5px); opacity: 1; }
+  46% { transform: scale(1) translateY(0);    opacity: 1; }
+  72% { transform: scale(1) translateY(0);    opacity: 1; }
+  /* ── Exit: smooth zoom outward ── */
+  80% { transform: scale(1.5); opacity: 1; filter: drop-shadow(0 0 24px #7ac74c); }
+  90% { transform: scale(7);   opacity: 0.55; }
+  100%{ transform: scale(22);  opacity: 0; filter: none; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   TIER: TRICKY  (Poison · Bug · Flying · Fairy)
+   Fast spin-flip with rotateZ twist. Dark violet backdrop.
+   Pink/purple/lavender rings. Snappy bouncy zoom pop exit.
+   ════════════════════════════════════════════════════════════════════════════ */
+.tierTricky {
+  background: rgba(38, 0, 42, 0.65);
+  animation: backdropFade 2.5s ease forwards;
+}
+.tierTricky .ring1 { border: 3px solid #d685ad; animation-duration: 0.65s; }
+.tierTricky .ring2 { border: 3px solid #a33ea1; animation-duration: 0.65s; }
+.tierTricky .ring3 { border: 3px solid #c4a4e8; animation-duration: 0.65s; }
+.tierTricky .sprite {
+  animation-name: spriteTricky;
+  animation-duration: 2.5s;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.tierTricky .label { animation-delay: 0.4s; }
+
+@keyframes spriteTricky {
+  /* ── Entrance: spin-flip with Z-twist (same absolute ms) ── */
+  0% {
+    transform: perspective(700px) rotateY(-180deg) rotateZ(-30deg) scale(0.2);
+    opacity: 0;
+    filter: drop-shadow(0 0 16px #d685ad) brightness(2);
+  }
+  14% {
+    transform: perspective(700px) rotateY(15deg) rotateZ(8deg) scale(1.28);
+    opacity: 1;
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.5)) brightness(1.3);
+  }
+  20% {
+    transform: perspective(700px) rotateY(-6deg) rotateZ(-4deg) scale(0.93);
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,0.5)) brightness(1);
+  }
+  26% {
+    transform: perspective(700px) rotateY(0deg) rotateZ(0deg) scale(1);
+    opacity: 1;
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,0.5));
+  }
+  /* ── Hold — little bounce, extended ── */
+  34% { transform: scale(1.06); opacity: 1; }
+  39% { transform: scale(1);    opacity: 1; }
+  72% { transform: scale(1);    opacity: 1; }
+  /* ── Exit: snappy zoom pop ── */
+  76% { transform: scale(1.2);  opacity: 1; filter: drop-shadow(0 0 20px #d685ad); }
+  84% { transform: scale(5.5);  opacity: 0.7; }
+  92% { transform: scale(13);   opacity: 0.2; }
+  100%{ transform: scale(22);   opacity: 0; filter: none; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   TIER: NORMAL  (Normal · Dark)
+   Simple clean rotateY flip. Neutral dark backdrop. Grey/white rings.
+   Straightforward zoom exit.
+   ════════════════════════════════════════════════════════════════════════════ */
+.tierNormal {
+  background: rgba(0, 0, 0, 0.5);
+  animation: backdropFade 2.4s ease forwards;
+}
+.tierNormal .ring1 { border: 3px solid #a8a77a; animation-duration: 0.75s; }
+.tierNormal .ring2 { border: 3px solid #ffffff; animation-duration: 0.75s; }
+.tierNormal .ring3 { border: 3px solid #cccccc; animation-duration: 0.75s; }
+.tierNormal .sprite {
+  animation-name: spriteNormal;
+  animation-duration: 2.4s;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.tierNormal .label { animation-delay: 0.42s; }
+
+@keyframes spriteNormal {
+  /* ── Entrance: clean rotateY flip (same absolute ms) ── */
+  0% {
+    transform: perspective(700px) rotateY(-180deg) scale(0.3);
+    opacity: 0;
+  }
+  19% {
+    transform: perspective(700px) rotateY(12deg) scale(1.18);
+    opacity: 1;
+  }
+  25% {
+    transform: perspective(700px) rotateY(-5deg) scale(0.96);
+  }
+  31% {
+    transform: perspective(700px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+  /* ── Hold — extended ── */
+  40% { transform: scale(1); opacity: 1; }
+  72% { transform: scale(1); opacity: 1; }
+  /* ── Exit: clean zoom out ── */
+  79% { transform: scale(1.3);  opacity: 1; }
+  90% { transform: scale(6.5);  opacity: 0.6; }
+  100%{ transform: scale(22);   opacity: 0; }
+}
+
+/* ── Shared: backdrop fade envelope ──────────────────────────────────────── */
+/* duration is set per tier by overriding animation-duration on .backdrop */
+@keyframes backdropFade {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}

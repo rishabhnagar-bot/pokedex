@@ -25,25 +25,44 @@
 
 /* ── Filter chip variant ─────────────────────────────────── */
 .filter {
-  /* Override static styles */
-  background-color: transparent;
+  background-color: color-mix(in srgb, var(--type-color) 22%, transparent);
   border: 2px solid var(--type-color);
-  color: var(--type-color);
-  padding: 5px 14px;
+  color: #ffffff;
+  padding: 6px 16px;
   font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   cursor: pointer;
-  opacity: 0.75;
-  transition: opacity 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  opacity: 1;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .filter:hover {
-  opacity: 1;
+  background-color: color-mix(in srgb, var(--type-color) 45%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--type-color) 65%, transparent);
+  transform: translateY(-1px);
 }
 
-/* Active / selected state — filled with type color */
+/* Active / selected state — filled + strong glow */
 .active {
   background-color: var(--type-color);
   color: #fff;
-  opacity: 1;
   border-color: var(--type-color);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 0 12px var(--type-color),
+    0 0 28px color-mix(in srgb, var(--type-color) 50%, transparent),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+/* Light theme — dark text is more readable on tinted light backgrounds */
+:global([data-theme='light']) .filter {
+  color: color-mix(in srgb, var(--type-color) 85%, #000);
+  text-shadow: none;
+}
+:global([data-theme='light']) .active {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }

@@ -1,9 +1,4 @@
-/**
- * PokemonModal.module.css — Pokémon-specific content styles.
- * Shell styles (backdrop, panel, close button) → Modal.module.css
- * Tab bar styles → Tabs.module.css
- */
-
+/* ── Loading / error ─────────────────────────────────────────── */
 .loadingState {
   display: flex;
   justify-content: center;
@@ -16,44 +11,158 @@
   padding: 2rem 0;
 }
 
-/* ── Header ── */
-.header {
+/* ── Hero banner ─────────────────────────────────────────────── */
+.banner {
+  /* Bleed to panel edges, cover the top padding */
+  margin: -2.25rem -2rem 0;
+  padding: 2.5rem 2.5rem 1.75rem;
+  border-radius: 1.5rem 1.5rem 0 0;
+  position: relative;
+  overflow: hidden;
   display: flex;
-  gap: 1.5rem;
   align-items: center;
+  gap: 2rem;
+
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--primary-color) 38%, #0a0a1a) 0%,
+    color-mix(in srgb, var(--secondary-color) 22%, #0d0d1f) 55%,
+    rgba(10, 8, 28, 0.95) 100%
+  );
+}
+
+/* Decorative radial blobs */
+.blobTR {
+  position: absolute;
+  top: -4rem; right: -4rem;
+  width: 18rem; height: 18rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--primary-color) 45%, transparent) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.blobBL {
+  position: absolute;
+  bottom: -3rem; left: -3rem;
+  width: 12rem; height: 12rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--secondary-color) 30%, transparent) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ── Sprite wrapper ──────────────────────────────────────────── */
+.spriteWrap {
+  position: relative;
+  flex-shrink: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Pulsing ring behind sprite */
+.spriteRing {
+  position: absolute;
+  width: 11rem;
+  height: 11rem;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--primary-color) 55%, transparent);
+  box-shadow:
+    0 0 20px color-mix(in srgb, var(--primary-color) 40%, transparent),
+    inset 0 0 20px color-mix(in srgb, var(--primary-color) 15%, transparent);
+  animation: ringPulse 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes ringPulse {
+  from { transform: scale(1);    opacity: 0.7; }
+  to   { transform: scale(1.08); opacity: 1;   }
 }
 
 .sprite {
-  width: 120px;
-  height: 120px;
+  position: relative;
+  z-index: 1;
+  width: 10rem;
+  height: 10rem;
   object-fit: contain;
-  flex-shrink: 0;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 20px color-mix(in srgb, var(--primary-color) 70%, transparent));
+  animation: spriteFloat 3s ease-in-out infinite alternate;
 }
 
+@keyframes spriteFloat {
+  from { transform: translateY(0px) rotate(-1deg); }
+  to   { transform: translateY(-10px) rotate(1deg); }
+}
+
+/* ── Meta: name / id / types ─────────────────────────────────── */
 .meta {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.4rem;
 }
 
 .id {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, var(--primary-color) 80%, #fff);
+  text-transform: uppercase;
 }
 
 .name {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 2.2rem;
+  font-weight: 900;
   text-transform: capitalize;
   margin: 0;
-  color: var(--color-text);
-  line-height: 1.2;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
 
 .types {
   display: flex;
-  gap: 0.4rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
-  margin-top: 0.25rem;
+  margin-top: 0.35rem;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .banner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.5rem 1.5rem;
+    gap: 1rem;
+    margin: -1.5rem -1.25rem 0;
+  }
+
+  .sprite {
+    width: 7.5rem;
+    height: 7.5rem;
+  }
+
+  .spriteRing {
+    width: 8.5rem;
+    height: 8.5rem;
+  }
+
+  .name {
+    font-size: 1.6rem;
+  }
+
+  .types {
+    justify-content: center;
+  }
 }

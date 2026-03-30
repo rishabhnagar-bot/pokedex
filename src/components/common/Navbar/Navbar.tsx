@@ -1,42 +1,65 @@
-/**
- * Navbar.tsx — Top navigation bar.
- *
- * Contains:
- *   - Logo / title (left) — clicking it navigates back to the landing page.
- *   - Theme toggle button (right).
- *   - "Refresh Team" button — clears team and resets type filter.
- *   - "Battle Team" button with badge showing current team size (right).
- *
- * Props:
- *   - teamCount   — drives the badge count on the Battle Team button.
- *   - onTeamClick — opens the TeamDrawer.
- *   - onBack      — navigates back to the landing page.
- *   - onReset     — clears team and resets type filter.
- */
-
 import { useTheme } from '../../../context/ThemeContext';
 import { Button } from '../Button';
+import logoUrl from '../../../assets/pokemon-ball-logo.png';
+import { MAX_TEAM_SIZE } from '../../../utils/constants';
+import type { TeamMember } from '../../../types/team';
 import styles from './Navbar.module.css';
 
 interface NavbarProps {
-  teamCount: number;
+  team: TeamMember[];
   onTeamClick: () => void;
   onBack: () => void;
   onReset: () => void;
 }
 
-export function Navbar({ teamCount, onTeamClick, onBack, onReset }: NavbarProps) {
+export function Navbar({ team, onTeamClick, onBack, onReset }: NavbarProps) {
   const { theme, toggleTheme } = useTheme();
+  const teamCount = team.length;
+  const isFull = teamCount >= MAX_TEAM_SIZE;
 
   return (
     <header className={styles.navbar}>
+
+      {/* ── Left: Logo ── */}
       <button className={styles.logo} onClick={onBack} aria-label="Back to home">
-        <span className={styles.logoText}>Pocket Pokédex</span>
+        <img src={logoUrl} alt="" className={styles.logoImg} />
+        <span className={styles.logoText}>Pokédex</span>
       </button>
 
+      {/* ── Center: 6 Pokéball slot indicators ── */}
+      <div
+        className={`${styles.teamSlots} ${isFull ? styles.slotsComplete : ''}`}
+        aria-label={`Team: ${teamCount} of ${MAX_TEAM_SIZE}`}
+      >
+        {Array.from({ length: MAX_TEAM_SIZE }, (_, i) => {
+          const member = team[i];
+          return (
+            <div
+              key={i}
+              className={styles.slotWrapper}
+              data-name={member ? member.name : undefined}
+            >
+              <span
+                className={`${styles.slot} ${member ? styles.slotFilled : ''}`}
+                aria-hidden
+              >
+                {member && (
+                  <img
+                    src={member.sprite}
+                    alt={member.name}
+                    className={styles.slotSprite}
+                  />
+                )}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ── Right: Actions ── */}
       <div className={styles.actions}>
-        <Button variant="warning" onClick={onReset}>
-          Refresh Team
+        <Button variant="warning" onClick={onReset} className={styles.navBtn}>
+          Reset
         </Button>
 
         <button
@@ -51,6 +74,7 @@ export function Navbar({ teamCount, onTeamClick, onBack, onReset }: NavbarProps)
           variant={teamCount > 0 ? 'secondary' : 'primary'}
           badge={teamCount > 0 ? teamCount : undefined}
           onClick={onTeamClick}
+          className={`${styles.navBtn} ${isFull ? styles.navBtnFull : ''}`}
         >
           Battle Team
         </Button>

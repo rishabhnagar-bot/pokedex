@@ -89,3 +89,21 @@
   background-color: var(--color-primary);
   color: #fff;
 }
+
+@media (max-width: 480px) {
+  .header,
+  .row {
+    grid-template-columns: 1fr 70px 32px;
+    gap: 0.35rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+  }
+
+  .moveName {
+    font-size: 0.78rem;
+  }
+
+  .method {
+    font-size: 0.68rem;
+  }
+}

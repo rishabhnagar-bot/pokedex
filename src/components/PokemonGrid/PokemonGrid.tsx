@@ -25,8 +25,9 @@ interface PokemonGridProps {
   isLoadingMore: boolean;
   error: string | null;
   hasMore: boolean;
-  onCardClick: (id: number) => void;
+  onCardClick: (pokemon: PokemonListItem) => void;
   onAddTeam: (member: TeamMember) => void;
+  onRemoveTeam: (id: number) => void;
   onLoadMore: () => void;
 }
 
@@ -40,6 +41,7 @@ export function PokemonGrid({
   hasMore,
   onCardClick,
   onAddTeam,
+  onRemoveTeam,
   onLoadMore,
 }: PokemonGridProps) {
   if (isInitialLoading) {
@@ -75,9 +77,14 @@ export function PokemonGrid({
             pokemon={p}
             isInTeam={teamIds.has(p.id)}
             isTeamFull={isTeamFull}
-            onClick={() => onCardClick(p.id)}
+            onClick={() => onCardClick(p)}
             onAddTeam={onAddTeam}
+            onRemoveTeam={onRemoveTeam}
           />
+        ))}
+        {/* Invisible spacers — pad the last row so every row has equal columns */}
+        {Array.from({ length: 4 }, (_, i) => (
+          <div key={`spacer-${i}`} className={styles.gridSpacer} aria-hidden />
         ))}
       </div>
 

@@ -2,10 +2,10 @@
   padding: 1rem 2rem 3rem;
 }
 
-/* Responsive grid: auto-fill columns, min 160px, max 1fr */
+/* Fixed 5-column grid — guarantees symmetric rows */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: 1.25rem;
 }
 
@@ -31,4 +31,42 @@
   display: flex;
   justify-content: center;
   margin-top: 2.5rem;
+}
+
+/* Invisible grid fillers — give the last row same column count as full rows */
+.gridSpacer {
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 4 columns on medium screens */
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 3 columns on tablets */
+@media (max-width: 768px) {
+  .section {
+    padding: 1rem 1.25rem 3rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* 2 columns on mobile */
+@media (max-width: 480px) {
+  .section {
+    padding: 0.75rem 0.875rem 2.5rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
 }

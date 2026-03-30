@@ -42,9 +42,9 @@ const backdropVariants = {
 };
 
 const panelVariants = {
-  hidden:  { opacity: 0, y: 24, scale: 0.97 },
-  visible: { opacity: 1, y: 0,  scale: 1    },
-  exit:    { opacity: 0, y: 16, scale: 0.97 },
+  hidden:  { opacity: 0, y: 100, scale: 0.75, rotateX: -18, filter: 'blur(16px)' },
+  visible: { opacity: 1, y: 0,   scale: 1,    rotateX: 0,   filter: 'blur(0px)'  },
+  exit:    { opacity: 0, y: -40, scale: 1.06, rotateX: 10,  filter: 'blur(10px)' },
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -92,10 +92,11 @@ export function Modal({
           initial="hidden"
           animate="visible"
           exit="hidden"
-          transition={{ duration: 0.18 }}
+          transition={{ duration: 0.22 }}
           onClick={handleBackdropClick}
           role="dialog"
           aria-modal
+          style={{ perspective: '1200px' }}
         >
           {/* Panel */}
           <motion.div
@@ -105,7 +106,7 @@ export function Modal({
             initial="hidden"
             animate="visible"
             exit="exit"
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.48, ease: [0.16, 1, 0.3, 1] }}
             // Stop propagation so clicks inside panel don't hit backdrop handler
             onClick={(e) => e.stopPropagation()}
           >

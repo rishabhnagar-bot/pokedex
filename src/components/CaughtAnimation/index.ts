@@ -1,0 +1,1 @@
+export { CaughtAnimation } from './CaughtAnimation';

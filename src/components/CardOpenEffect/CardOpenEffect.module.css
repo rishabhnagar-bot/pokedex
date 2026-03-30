@@ -1,0 +1,54 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Expanding ring */
+.ring {
+  position: absolute;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  border: 3px solid rgba(99, 102, 241, 0.9);
+  box-shadow:
+    0 0 24px rgba(99, 102, 241, 0.6),
+    inset 0 0 24px rgba(99, 102, 241, 0.2);
+}
+
+.ringInner {
+  border-color: rgba(168, 85, 247, 0.85);
+  box-shadow:
+    0 0 18px rgba(168, 85, 247, 0.55),
+    inset 0 0 18px rgba(168, 85, 247, 0.15);
+}
+
+/* Pokemon sprite */
+.sprite {
+  position: relative;
+  z-index: 1;
+  width: 9rem;
+  height: 9rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 24px rgba(99, 102, 241, 0.9));
+}
+
+/* Radial flash */
+.flash {
+  position: absolute;
+  width: 30rem;
+  height: 30rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(200, 195, 255, 0.5) 0%,
+    rgba(99, 102, 241, 0.2) 40%,
+    transparent 70%
+  );
+}

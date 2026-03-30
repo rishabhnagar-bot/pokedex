@@ -2,10 +2,54 @@
   min-height: 100vh;
   background-color: var(--color-bg);
   color: var(--color-text);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ── Animated aurora blobs ── */
+/* Fixed so they don't scroll with content — pure atmosphere */
+.page::before,
+.page::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(90px);
+}
+
+/* Top-right — indigo blob */
+.page::before {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, transparent 70%);
+  top: -220px;
+  right: -220px;
+  animation: blobDrift1 14s ease-in-out infinite alternate;
+}
+
+/* Bottom-left — rose blob */
+.page::after {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(244, 63, 94, 0.16) 0%, transparent 70%);
+  bottom: -180px;
+  left: -180px;
+  animation: blobDrift2 18s ease-in-out infinite alternate;
+}
+
+@keyframes blobDrift1 {
+  0%   { transform: translate(0,   0)   scale(1);   }
+  100% { transform: translate(-80px, 120px) scale(1.25); }
+}
+@keyframes blobDrift2 {
+  0%   { transform: translate(0,   0)   scale(1);   }
+  100% { transform: translate(120px, -80px) scale(1.15); }
 }
 
 .main {
-  /* Constrain content width on large screens */
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }

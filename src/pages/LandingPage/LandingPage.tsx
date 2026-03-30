@@ -17,6 +17,7 @@
 
 import { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import logoUrl from '../../assets/pokemon-ball-logo.png';
 import styles from './LandingPage.module.css';
 
 interface LandingPageProps {
@@ -64,7 +65,7 @@ const itemVariants = {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export function LandingPage({ onStart }: LandingPageProps) {
-  const stars = useStars(1000);
+  const stars = useStars(3000);
 
   return (
     <motion.div
@@ -104,24 +105,29 @@ export function LandingPage({ onStart }: LandingPageProps) {
         initial="hidden"
         animate="visible"
       >
-        {/* Top tags — matches the Figma badge row */}
-        <motion.div className={styles.tags} variants={itemVariants}>
-          <span className={styles.tagDate}>2026</span>
-          <span className={styles.tagReady}>
-            <span className={styles.tagDot} />
-            Ready to Explore
-          </span>
-        </motion.div>
+        {/* Spinning Pokéball logo */}
+        <motion.img
+          src={logoUrl}
+          alt=""
+          className={styles.heroBall}
+          initial={{ opacity: 0, scale: 0.6 }}
+          animate={{ opacity: 1, scale: 1, rotate: 360 }}
+          transition={{
+            opacity:  { duration: 0.6, delay: 0.2 },
+            scale:    { duration: 0.6, delay: 0.2 },
+            rotate:   { duration: 12, repeat: Infinity, ease: 'linear', delay: 0 },
+          }}
+        />
 
         {/* Title */}
         <motion.h1 className={styles.title} variants={itemVariants}>
-          Pocket<br />Pokédex
+          Pokédex
         </motion.h1>
 
         {/* Subtitle */}
         <motion.p className={styles.subtitle} variants={itemVariants}>
-          Browse, filter, and explore every Pokémon.
-          Build your ultimate battle team of six.
+          <h4>Browse, filter, and explore every Pokémon.</h4>
+          <h3>Build your ultimate battle team.</h3>
         </motion.p>
 
         {/* CTA */}
