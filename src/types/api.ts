@@ -62,6 +62,9 @@ export interface RawPokemonDetail {
 export interface RawPokemonSpecies {
   id: number;
   name: string;
+  capture_rate: number;
+  growth_rate: { name: string; url: string };
+  evolution_chain: { url: string };
   genera: Array<{
     genus: string;
     language: NamedAPIResource;
@@ -71,6 +74,17 @@ export interface RawPokemonSpecies {
     language: NamedAPIResource;
     version: NamedAPIResource;
   }>;
+}
+
+/** GET <evolution_chain_url> */
+export interface RawEvolutionChain {
+  chain: RawChainLink;
+}
+
+export interface RawChainLink {
+  species: NamedAPIResource;
+  evolution_details: Array<{ min_level: number | null }>;
+  evolves_to: RawChainLink[];
 }
 
 /** GET /type */

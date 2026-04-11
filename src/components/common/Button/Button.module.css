@@ -1,19 +1,16 @@
-/**
- * Button.module.css — Styles for the Button component.
- * Actual design values will be filled in during the styling step.
- */
-
 .button {
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.5rem 1.25rem;
-  border-radius: 9999px;
+  padding: 0.6rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s ease;
   border: none;
+  transition: background 0.15s, opacity 0.15s, box-shadow 0.15s;
 }
 
 .button:disabled {
@@ -21,47 +18,58 @@
   cursor: not-allowed;
 }
 
-/* Variants — colours filled in with CSS vars during the theme step */
+/* Primary — filled blue */
 .primary {
   background-color: var(--color-primary);
   color: var(--color-on-primary);
 }
-
-.secondary {
-  background-color: transparent;
-  border: 2px solid var(--color-primary);
-  color: var(--color-primary);
+.primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 40%, transparent);
 }
 
+/* Secondary — outlined */
+.secondary {
+  background-color: transparent;
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-primary);
+}
+.secondary:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+/* Ghost */
 .ghost {
   background-color: transparent;
   color: var(--color-text);
   padding: 0.25rem;
 }
+.ghost:hover:not(:disabled) {
+  background: rgba(0,0,0,0.06);
+}
 
+/* Warning */
 .warning {
   background-color: #d97706;
   color: #ffffff;
 }
-
-.warning:hover {
-  opacity: 0.85;
+.warning:hover:not(:disabled) {
+  background-color: #b45309;
 }
 
-/* Badge counter pill */
+/* Badge counter — inline circle (right side of button) */
 .badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 4px;
-  border-radius: 9999px;
-  background-color: var(--color-accent);
-  color: white;
-  font-size: 0.65rem;
-  font-weight: 700;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.3rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-left: 0.1rem;
 }

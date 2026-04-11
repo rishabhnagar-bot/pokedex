@@ -1,82 +1,127 @@
-.empty {
+.wrapper {
   display: flex;
   flex-direction: column;
+  gap: 0;
+  padding: 0.75rem 0 0;
+}
+
+/* 3-column slot grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Empty slot — dashed border, light bg */
+.slotEmpty {
+  aspect-ratio: 1;
+  border: 2px dashed #d1d5db;
+  border-radius: 0.75rem;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 3rem 1rem;
-  color: var(--color-text-muted);
-  text-align: center;
-  font-size: 0.875rem;
+  background: #f9fafb;
 }
 
-.list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
+.slotPlus {
+  font-size: 1.6rem;
+  color: #c4c9d4;
+  line-height: 1;
+  font-weight: 300;
 }
 
-.memberRow {
+/* Filled slot — solid border, white bg */
+.slotFilled {
+  aspect-ratio: 1;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: #ffffff;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--color-border);
+  justify-content: center;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: border-color 0.15s, background 0.15s;
+  overflow: hidden;
   position: relative;
 }
 
-.memberRow:last-child {
-  border-bottom: none;
+.slotFilled:hover {
+  border-color: #fca5a5;
+  background: #fef2f2;
 }
 
-.sprite {
-  width: 3rem;
-  height: 3rem;
+.slotFilled:hover .slotSprite {
+  opacity: 0.45;
+}
+
+.slotFilled:hover::after {
+  content: '✕';
+  position: absolute;
+  font-size: 1.1rem;
+  color: #ef4444;
+  font-weight: 700;
+}
+
+.slotSprite {
+  width: 85%;
+  height: 85%;
   object-fit: contain;
-  flex-shrink: 0;
+  transition: opacity 0.15s;
 }
 
-.info {
-  flex: 1;
+/* Empty state */
+.emptyState {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  min-width: 0;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem 0.5rem;
+  text-align: center;
 }
 
-.name {
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: capitalize;
-  color: var(--color-text);
-}
-
-.types {
-  display: flex;
-  gap: 0.3rem;
-  flex-wrap: wrap;
-}
-
-/* Remove button — invisible by default, shown on row hover */
-.removeBtn {
-  opacity: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--color-text-muted);
-  font-size: 0.85rem;
-  padding: 0.25rem;
-  transition: opacity 0.15s, color 0.15s;
+.emptyIcon {
+  color: #c4c9d4;
   flex-shrink: 0;
 }
 
-.memberRow:hover .removeBtn,
-.memberRow:focus-within .removeBtn {
-  opacity: 1;
+.emptyTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
 }
 
-.removeBtn:hover {
-  color: var(--color-error);
+.emptySubtitle {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin: 0;
+  line-height: 1.55;
+  max-width: 220px;
+}
+
+/* Clear button — outlined rectangular button, bottom-right */
+.clearRow {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem 0 0;
+}
+
+.clearBtn {
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #111827;
+  padding: 0.45rem 1.1rem;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.clearBtn:hover {
+  border-color: #fca5a5;
+  background: #fef2f2;
+  color: #ef4444;
 }

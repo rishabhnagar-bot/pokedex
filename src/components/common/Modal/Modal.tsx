@@ -32,6 +32,7 @@ interface ModalProps {
   children: ReactNode;
   maxWidth?: string;
   hideCloseButton?: boolean;
+  title?: string;
 }
 
 // ─── Animation variants ───────────────────────────────────────────────────────
@@ -55,6 +56,7 @@ export function Modal({
   children,
   maxWidth = '520px',
   hideCloseButton = false,
+  title,
 }: ModalProps) {
 
   // Close on Escape key
@@ -110,6 +112,8 @@ export function Modal({
             // Stop propagation so clicks inside panel don't hit backdrop handler
             onClick={(e) => e.stopPropagation()}
           >
+            {title && <p className={styles.panelTitle}>{title}</p>}
+
             {!hideCloseButton && (
               <button
                 className={styles.closeBtn}

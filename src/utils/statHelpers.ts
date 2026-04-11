@@ -56,7 +56,7 @@ export function aggregateTeamStats(memberStats: PokemonStat[][]): AggregatedStat
  * e.g. 7 → "0.7 m"
  */
 export function formatHeight(decimetres: number): string {
-  return `${(decimetres / 10).toFixed(1)} m`;
+  return `${parseFloat((decimetres / 10).toFixed(1))} m`;
 }
 
 /**
@@ -64,5 +64,5 @@ export function formatHeight(decimetres: number): string {
  * e.g. 69 → "6.9 kg"
  */
 export function formatWeight(hectograms: number): string {
-  return `${(hectograms / 10).toFixed(1)} kg`;
+  return `${parseFloat((hectograms / 10).toFixed(1))} kg`;
 }

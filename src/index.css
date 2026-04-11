@@ -5,16 +5,108 @@
 /* Light theme */
 :root,
 [data-theme='light'] {
-  --color-bg:           #eef0ff;
+  --color-bg:           #f5f5f7;
   --color-surface:      #ffffff;
-  --color-surface-alt:  #f0f1ff;
-  --color-border:       #dde0f5;
-  --color-text:         #1a1a2e;
+  --color-surface-alt:  #f5f5f5;
+  --color-border:       #e5e7eb;
+  --color-text:         #111827;
   --color-text-muted:   #6b7280;
-  --color-primary:      #6366f1;
+  --color-primary:      #3b82f6;
   --color-on-primary:   #ffffff;
   --color-accent:       #f43f5e;
   --color-error:        #ef4444;
+}
+
+/* ── Per-type color themes — primary + subtle tinted surfaces (light mode) ── */
+[data-color-theme='normal'] {
+  --color-primary: #A8A878; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #A8A878 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #A8A878 7%, #ffffff);
+}
+[data-color-theme='fire'] {
+  --color-primary: #F08030; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #F08030 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #F08030 7%, #ffffff);
+}
+[data-color-theme='water'] {
+  --color-primary: #6890F0; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #6890F0 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #6890F0 7%, #ffffff);
+}
+[data-color-theme='electric'] {
+  --color-primary: #F8D030; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #F8D030 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #F8D030 7%, #ffffff);
+}
+[data-color-theme='grass'] {
+  --color-primary: #78C850; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #78C850 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #78C850 7%, #ffffff);
+}
+[data-color-theme='ice'] {
+  --color-primary: #98D8D8; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #98D8D8 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #98D8D8 7%, #ffffff);
+}
+[data-color-theme='fighting'] {
+  --color-primary: #C03028; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #C03028 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #C03028 7%, #ffffff);
+}
+[data-color-theme='poison'] {
+  --color-primary: #A040A0; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #A040A0 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #A040A0 7%, #ffffff);
+}
+[data-color-theme='ground'] {
+  --color-primary: #E0C068; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #E0C068 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #E0C068 7%, #ffffff);
+}
+[data-color-theme='flying'] {
+  --color-primary: #A890F0; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #A890F0 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #A890F0 7%, #ffffff);
+}
+[data-color-theme='psychic'] {
+  --color-primary: #F85888; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #F85888 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #F85888 7%, #ffffff);
+}
+[data-color-theme='bug'] {
+  --color-primary: #A8B820; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #A8B820 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #A8B820 7%, #ffffff);
+}
+[data-color-theme='rock'] {
+  --color-primary: #B8A038; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #B8A038 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #B8A038 7%, #ffffff);
+}
+[data-color-theme='ghost'] {
+  --color-primary: #705898; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #705898 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #705898 7%, #ffffff);
+}
+[data-color-theme='dragon'] {
+  --color-primary: #7038F8; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #7038F8 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #7038F8 7%, #ffffff);
+}
+[data-color-theme='dark'] {
+  --color-primary: #705848; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #705848 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #705848 7%, #ffffff);
+}
+[data-color-theme='steel'] {
+  --color-primary: #B8B8D0; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #B8B8D0 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #B8B8D0 7%, #ffffff);
+}
+[data-color-theme='fairy'] {
+  --color-primary: #EE99AC; --color-on-primary: #fff;
+  --color-bg: color-mix(in srgb, #EE99AC 6%, #f5f5f7);
+  --color-surface: color-mix(in srgb, #EE99AC 7%, #ffffff);
 }
 
 /* Dark theme */
@@ -30,6 +122,26 @@
   --color-accent:       #fb7185;
   --color-error:        #f87171;
 }
+
+/* ── Dark mode per-type tints (combined selector wins over [data-theme='dark'] alone) ── */
+[data-theme='dark'][data-color-theme='normal']   { --color-bg: color-mix(in srgb, #A8A878 9%, #0d0d1a); --color-surface: color-mix(in srgb, #A8A878 10%, #16162a); }
+[data-theme='dark'][data-color-theme='fire']     { --color-bg: color-mix(in srgb, #F08030 9%, #0d0d1a); --color-surface: color-mix(in srgb, #F08030 10%, #16162a); }
+[data-theme='dark'][data-color-theme='water']    { --color-bg: color-mix(in srgb, #6890F0 9%, #0d0d1a); --color-surface: color-mix(in srgb, #6890F0 10%, #16162a); }
+[data-theme='dark'][data-color-theme='electric'] { --color-bg: color-mix(in srgb, #F8D030 9%, #0d0d1a); --color-surface: color-mix(in srgb, #F8D030 10%, #16162a); }
+[data-theme='dark'][data-color-theme='grass']    { --color-bg: color-mix(in srgb, #78C850 9%, #0d0d1a); --color-surface: color-mix(in srgb, #78C850 10%, #16162a); }
+[data-theme='dark'][data-color-theme='ice']      { --color-bg: color-mix(in srgb, #98D8D8 9%, #0d0d1a); --color-surface: color-mix(in srgb, #98D8D8 10%, #16162a); }
+[data-theme='dark'][data-color-theme='fighting'] { --color-bg: color-mix(in srgb, #C03028 9%, #0d0d1a); --color-surface: color-mix(in srgb, #C03028 10%, #16162a); }
+[data-theme='dark'][data-color-theme='poison']   { --color-bg: color-mix(in srgb, #A040A0 9%, #0d0d1a); --color-surface: color-mix(in srgb, #A040A0 10%, #16162a); }
+[data-theme='dark'][data-color-theme='ground']   { --color-bg: color-mix(in srgb, #E0C068 9%, #0d0d1a); --color-surface: color-mix(in srgb, #E0C068 10%, #16162a); }
+[data-theme='dark'][data-color-theme='flying']   { --color-bg: color-mix(in srgb, #A890F0 9%, #0d0d1a); --color-surface: color-mix(in srgb, #A890F0 10%, #16162a); }
+[data-theme='dark'][data-color-theme='psychic']  { --color-bg: color-mix(in srgb, #F85888 9%, #0d0d1a); --color-surface: color-mix(in srgb, #F85888 10%, #16162a); }
+[data-theme='dark'][data-color-theme='bug']      { --color-bg: color-mix(in srgb, #A8B820 9%, #0d0d1a); --color-surface: color-mix(in srgb, #A8B820 10%, #16162a); }
+[data-theme='dark'][data-color-theme='rock']     { --color-bg: color-mix(in srgb, #B8A038 9%, #0d0d1a); --color-surface: color-mix(in srgb, #B8A038 10%, #16162a); }
+[data-theme='dark'][data-color-theme='ghost']    { --color-bg: color-mix(in srgb, #705898 9%, #0d0d1a); --color-surface: color-mix(in srgb, #705898 10%, #16162a); }
+[data-theme='dark'][data-color-theme='dragon']   { --color-bg: color-mix(in srgb, #7038F8 9%, #0d0d1a); --color-surface: color-mix(in srgb, #7038F8 10%, #16162a); }
+[data-theme='dark'][data-color-theme='dark']     { --color-bg: color-mix(in srgb, #705848 9%, #0d0d1a); --color-surface: color-mix(in srgb, #705848 10%, #16162a); }
+[data-theme='dark'][data-color-theme='steel']    { --color-bg: color-mix(in srgb, #B8B8D0 9%, #0d0d1a); --color-surface: color-mix(in srgb, #B8B8D0 10%, #16162a); }
+[data-theme='dark'][data-color-theme='fairy']    { --color-bg: color-mix(in srgb, #EE99AC 9%, #0d0d1a); --color-surface: color-mix(in srgb, #EE99AC 10%, #16162a); }
 
 /* ============================================================
    Global reset & base

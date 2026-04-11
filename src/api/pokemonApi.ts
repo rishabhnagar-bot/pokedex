@@ -17,8 +17,9 @@ import type {
   RawPokemonDetail,
   RawPokemonSpecies,
   RawTypeListResponse,
+  RawChainLink,
 } from '../types/api';
-import type { PokemonListItem, PokemonDetail, PokemonType } from '../types/pokemon';
+import type { PokemonListItem, PokemonDetail, PokemonType, EvolutionStage } from '../types/pokemon';
 import { TYPE_COLORS } from '../utils/typeColors';
 
 const BASE_URL = 'https://pokeapi.co/api/v2';
@@ -95,12 +96,19 @@ export async function fetchPokemonDetail(idOrName: string | number): Promise<Pok
   const flavorText = extractFlavorText(species);
   const genus = extractGenus(species);
 
+  // Fetch evolution chain
+  const evoChainUrl = species.evolution_chain.url;
+  const evolutionChain = await fetchEvolutionChain(evoChainUrl);
+
+  const hiddenAbilityEntry = detail.abilities.find((a) => a.is_hidden);
+
   return {
     ...listItem,
     height: detail.height,
     weight: detail.weight,
     baseExperience: detail.base_experience,
-    abilities: detail.abilities.map((a) => a.ability.name),
+    abilities: detail.abilities.filter((a) => !a.is_hidden).map((a) => a.ability.name),
+    hiddenAbility: hiddenAbilityEntry?.ability.name ?? null,
     stats: detail.stats.map((s) => ({
       name: s.stat.name,
       baseStat: s.base_stat,
@@ -112,6 +120,9 @@ export async function fetchPokemonDetail(idOrName: string | number): Promise<Pok
     })),
     flavorText,
     genus,
+    catchRate: species.capture_rate,
+    growthRate: species.growth_rate.name,
+    evolutionChain,
   };
 }
 
@@ -147,6 +158,32 @@ async function fetchRawSpecies(idOrName: string): Promise<RawPokemonSpecies> {
   const res = await fetch(`${BASE_URL}/pokemon-species/${idOrName}`);
   if (!res.ok) throw new Error(`Failed to fetch species for "${idOrName}" (${res.status})`);
   return res.json();
+}
+
+async function fetchEvolutionChain(url: string): Promise<EvolutionStage[]> {
+  const res = await fetch(url);
+  if (!res.ok) return [];
+  const data: { chain: RawChainLink } = await res.json();
+
+  // Flatten the nested chain into an ordered array
+  const stages: EvolutionStage[] = [];
+  const walk = async (link: RawChainLink, minLevel: number | null) => {
+    const id = idFromUrl(link.species.url);
+    try {
+      const raw = await fetchRawDetail(String(id));
+      const item = rawDetailToListItem(raw);
+      stages.push({ ...item, minLevel });
+    } catch {
+      // skip stages we can't fetch
+    }
+    for (const next of link.evolves_to) {
+      const level = next.evolution_details[0]?.min_level ?? null;
+      await walk(next, level);
+    }
+  };
+
+  await walk(data.chain, null);
+  return stages;
 }
 
 function rawDetailToListItem(detail: RawPokemonDetail): PokemonListItem {

@@ -25,44 +25,39 @@
 
 /* ── Filter chip variant ─────────────────────────────────── */
 .filter {
-  background-color: color-mix(in srgb, var(--type-color) 22%, transparent);
-  border: 2px solid var(--type-color);
-  color: #ffffff;
-  padding: 6px 16px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  background-color: transparent;
+  border: 1.5px solid var(--type-color);
+  color: var(--type-color);
+  padding: 4px 14px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
   cursor: pointer;
-  opacity: 1;
-  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.13s ease, box-shadow 0.13s ease;
 }
 
 .filter:hover {
-  background-color: color-mix(in srgb, var(--type-color) 45%, transparent);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--type-color) 65%, transparent);
-  transform: translateY(-1px);
+  background-color: var(--type-color);
+  color: #fff;
+  border-color: var(--type-color);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--type-color) 40%, transparent);
 }
 
-/* Active / selected state — filled + strong glow */
+/* Active / selected state — filled with type color */
 .active {
   background-color: var(--type-color);
   color: #fff;
   border-color: var(--type-color);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-  box-shadow:
-    0 0 12px var(--type-color),
-    0 0 28px color-mix(in srgb, var(--type-color) 50%, transparent),
-    inset 0 1px 0 rgba(255,255,255,0.3);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--type-color) 40%, transparent);
 }
 
-/* Light theme — dark text is more readable on tinted light backgrounds */
-:global([data-theme='light']) .filter {
-  color: color-mix(in srgb, var(--type-color) 85%, #000);
-  text-shadow: none;
+/* Dark theme adjustments */
+:global([data-theme='dark']) .filter {
+  color: color-mix(in srgb, var(--type-color) 90%, #fff);
+  border-color: color-mix(in srgb, var(--type-color) 80%, transparent);
 }
-:global([data-theme='light']) .active {
-  color: #ffffff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+:global([data-theme='dark']) .filter:hover,
+:global([data-theme='dark']) .active {
+  color: #fff;
 }

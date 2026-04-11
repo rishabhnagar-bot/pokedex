@@ -90,8 +90,8 @@ export function PokemonGrid({
 
       {hasMore && (
         <div className={styles.loadMoreWrapper}>
-          <Button variant="secondary" onClick={onLoadMore} disabled={isLoadingMore}>
-            {isLoadingMore ? 'Loading…' : 'Load More'}
+          <Button variant="primary" onClick={onLoadMore} disabled={isLoadingMore} className={styles.loadMoreBtn}>
+            {isLoadingMore ? 'Loading…' : 'Load More Pokémon'}
           </Button>
         </div>
       )}

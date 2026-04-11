@@ -1,39 +1,45 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
-/* Tab bar */
+/* ── Segmented control tab bar ── */
 .tabList {
   display: flex;
-  border-bottom: 2px solid var(--color-border);
+  background: #f3f4f6;
+  padding: 4px;
+  gap: 2px;
+  border-radius: 0.875rem 0.875rem 0 0;
+  /* no bottom border — segmented style */
 }
 
 .tab {
-  padding: 0.5rem 1.25rem;
-  background: none;
+  flex: 1;
+  padding: 0.45rem 0.75rem;
+  background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  transition: color 0.15s, border-color 0.15s;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #6b7280;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
   white-space: nowrap;
 }
 
 .tab:hover {
-  color: var(--color-text);
+  color: #374151;
 }
 
 .tabActive {
-  color: var(--color-primary);
-  border-bottom-color: var(--color-primary);
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 
 /* Content panel */
 .panel {
-  min-height: 200px;
+  min-height: 160px;
+  padding: 0 1rem 1rem;
 }

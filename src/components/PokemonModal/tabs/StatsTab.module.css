@@ -1,65 +1,80 @@
 /* Stat color tokens */
 :root {
-  --stat-high: #4ade80; /* green  ≥ 90 */
-  --stat-mid:  #facc15; /* yellow ≥ 50 */
-  --stat-low:  #f87171; /* red    < 50 */
+  --stat-high: #4ade80;
+  --stat-mid:  #facc15;
+  --stat-low:  #f87171;
 }
 
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-  padding: 1rem 0;
+  gap: 0;
+  padding: 0.75rem 0 0.25rem;
 }
 
-.row {
-  display: grid;
-  grid-template-columns: 4.5rem 2.25rem 1fr;
+/* Each stat: label+value row then bar row */
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.statItem:last-of-type {
+  border-bottom: none;
+}
+
+.statHeader {
+  display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: space-between;
 }
 
 .label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  text-align: right;
-  white-space: nowrap;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #374151;
 }
 
 .value {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  color: var(--color-text);
-  text-align: right;
+  color: #111827;
 }
 
 .barTrack {
-  height: 7px;
-  background-color: var(--color-border);
+  height: 5px;
+  background-color: #e5e7eb;
   border-radius: 9999px;
   overflow: hidden;
 }
 
 .barFill {
   height: 100%;
+  background-color: #1e293b;
   border-radius: 9999px;
   transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Total row */
 .totalRow {
-  display: grid;
-  grid-template-columns: 4.5rem 2.25rem 1fr;
-  gap: 0.75rem;
-  padding-top: 0.65rem;
-  border-top: 1px solid var(--color-border);
-  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0 0.25rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 0.15rem;
+}
+
+.totalLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
 }
 
 .totalValue {
   font-size: 0.9rem;
   font-weight: 700;
-  color: var(--color-text);
-  text-align: right;
+  color: #111827;
 }

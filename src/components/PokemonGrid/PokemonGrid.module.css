@@ -33,6 +33,17 @@
   margin-top: 2.5rem;
 }
 
+.loadMoreBtn {
+  background-color: #2563EB !important;
+}
+
+.loadMoreBtn:hover:not(:disabled) {
+  background: #64748B !important;
+  color: #ffffff !important;
+  filter: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
 /* Invisible grid fillers — give the last row same column count as full rows */
 .gridSpacer {
   height: 0;

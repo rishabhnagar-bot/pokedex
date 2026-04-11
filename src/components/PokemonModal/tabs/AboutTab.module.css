@@ -1,79 +1,160 @@
 .wrapper {
-  padding: 1rem 0;
+  padding: 0.75rem 0 0.25rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-/* Species flavor text — the main description from the API */
-.description {
-  margin: 0;
-  padding: 0.85rem 1rem;
-  border-left: 3px solid var(--color-primary);
-  background-color: var(--color-surface-alt);
-  border-radius: 0 8px 8px 0;
-  font-size: 0.875rem;
-  line-height: 1.65;
-  color: var(--color-text);
-  font-style: italic;
-}
-
-.noDescription {
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-  font-style: italic;
-  margin: 0;
-}
-
-/* Info grid — key/value pairs */
-.grid {
+/* ── Section row ── */
+.section {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  margin: 0;
-}
-
-.entry {
-  display: grid;
-  grid-template-columns: 5.625rem 1fr;
   gap: 0.5rem;
-  padding: 0.55rem 0;
-  border-bottom: 1px solid var(--color-border);
 }
 
-.entry:last-child {
-  border-bottom: none;
+/* Header: icon-box + title on one line */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
-.entry dt {
-  font-size: 0.75rem;
+/* Small rounded-square icon container */
+.iconBox {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: #e8eefe;
+  color: #4361ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sectionTitle {
+  font-size: 0.9rem;
   font-weight: 700;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  display: flex;
-  align-items: center;
+  color: #111827;
 }
 
-.entry dd {
-  font-size: 0.875rem;
-  color: var(--color-text);
+/* Content indented to align with title text (icon width + gap) */
+.sectionBody {
+  padding-left: calc(28px + 0.6rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* ── Pokédex entry ── */
+.flavorText {
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: #374151;
   margin: 0;
-  text-transform: capitalize;
-  display: flex;
-  align-items: center;
 }
 
-@media (max-width: 480px) {
-  .entry {
-    grid-template-columns: 4.75rem 1fr;
-  }
+/* ── 2-column grid ── */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+}
 
-  .entry dt {
-    font-size: 0.7rem;
-  }
+.gridCell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
 
-  .entry dd {
-    font-size: 0.825rem;
-  }
+.gridLabel {
+  font-size: 0.68rem;
+  color: #9ca3af;
+  line-height: 1;
+}
+
+.gridValue {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111827;
+  text-transform: capitalize;
+}
+
+/* ── Evolution chain ── */
+.evoChain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+}
+
+.evoChainInner {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.evoArrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: #9ca3af;
+  margin: 0 0.25rem;
+}
+
+.evoLevel {
+  font-size: 0.62rem;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
+.evoStage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.evoSprite {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.evoName {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #374151;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+.evoDots {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+}
+
+.evoDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ── Classification chip — display-only badge ── */
+.genusChip {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  color: #4361ee;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: default;
+  user-select: none;
+  align-self: flex-start;
 }

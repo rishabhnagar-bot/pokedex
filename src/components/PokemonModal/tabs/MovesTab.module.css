@@ -1,109 +1,54 @@
 .wrapper {
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   display: flex;
   flex-direction: column;
 }
 
-/* Column header */
-.header {
-  display: grid;
-  grid-template-columns: 1fr 90px 36px;
-  gap: 0.5rem;
-  padding: 0.3rem 0.6rem;
-  font-size: 0.68rem;
+.section {
+  margin-top: 1rem;
+}
+
+.groupLabel {
+  font-size: 0.72rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
   color: var(--color-text-muted);
-  border-bottom: 2px solid var(--color-border);
-  margin-bottom: 0.25rem;
+  text-transform: none;
+  margin: 0 0 0.25rem;
+  padding: 0;
 }
 
-/* Move row */
 .row {
-  display: grid;
-  grid-template-columns: 1fr 90px 36px;
-  gap: 0.5rem;
-  padding: 0.55rem 0.6rem;
-  border-radius: 6px;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--color-border);
+  gap: 0.5rem;
 }
 
-.rowEven {
-  background-color: var(--color-surface-alt);
+.row:last-child {
+  border-bottom: none;
 }
 
 .moveName {
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--color-text);
-  text-transform: capitalize;
-}
-
-.method {
-  font-size: 0.72rem;
-  color: var(--color-text-muted);
   text-transform: capitalize;
 }
 
 .level {
   font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  text-align: center;
+  font-weight: 500;
+  color: #6b7280;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-/* Footer row */
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 0.75rem;
-  padding: 0 0.6rem;
-}
-
-.note {
-  font-size: 0.7rem;
-  color: var(--color-text-muted);
-  margin: 0;
-}
-
-.actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.toggleBtn {
+.method {
   font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-primary);
-  background: none;
-  border: 1px solid var(--color-primary);
-  border-radius: 9999px;
-  padding: 3px 12px;
-  cursor: pointer;
-  transition: background-color 0.15s, color 0.15s;
-}
-
-.toggleBtn:hover {
-  background-color: var(--color-primary);
-  color: #fff;
-}
-
-@media (max-width: 480px) {
-  .header,
-  .row {
-    grid-template-columns: 1fr 70px 32px;
-    gap: 0.35rem;
-    padding-left: 0.4rem;
-    padding-right: 0.4rem;
-  }
-
-  .moveName {
-    font-size: 0.78rem;
-  }
-
-  .method {
-    font-size: 0.68rem;
-  }
+  color: var(--color-text-muted);
+  text-transform: capitalize;
+  white-space: nowrap;
+  flex-shrink: 0;
 }

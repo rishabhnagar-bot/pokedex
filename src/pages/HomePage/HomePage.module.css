@@ -4,10 +4,10 @@
   color: var(--color-text);
   position: relative;
   overflow-x: hidden;
+  padding: 1.25rem;
 }
 
 /* ── Animated aurora blobs ── */
-/* Fixed so they don't scroll with content — pure atmosphere */
 .page::before,
 .page::after {
   content: '';
@@ -18,38 +18,123 @@
   filter: blur(90px);
 }
 
-/* Top-right — indigo blob */
 .page::before {
   width: 700px;
   height: 700px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 12%, transparent) 0%, transparent 70%);
   top: -220px;
   right: -220px;
   animation: blobDrift1 14s ease-in-out infinite alternate;
 }
 
-/* Bottom-left — rose blob */
 .page::after {
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(244, 63, 94, 0.16) 0%, transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 8%, transparent) 0%, transparent 70%);
   bottom: -180px;
   left: -180px;
   animation: blobDrift2 18s ease-in-out infinite alternate;
 }
 
 @keyframes blobDrift1 {
-  0%   { transform: translate(0,   0)   scale(1);   }
+  0%   { transform: translate(0, 0) scale(1); }
   100% { transform: translate(-80px, 120px) scale(1.25); }
 }
 @keyframes blobDrift2 {
-  0%   { transform: translate(0,   0)   scale(1);   }
+  0%   { transform: translate(0, 0) scale(1); }
   100% { transform: translate(120px, -80px) scale(1.15); }
+}
+
+/* ── White card that holds navbar + filter + grid ── */
+.card {
+  position: relative;
+  z-index: 1;
+  background: var(--color-surface);
+  border-radius: 1rem;
+  overflow: hidden;
+  min-height: calc(100vh - 2.5rem);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 22%, #e5e7eb);
+  box-shadow: 0 0 0 0 transparent,
+              0 8px 40px color-mix(in srgb, var(--color-primary) 10%, transparent);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+
+/* Inner radial glow at top of card — shifts with theme */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  background: radial-gradient(
+    ellipse 80% 200px at 50% -20px,
+    color-mix(in srgb, var(--color-primary) 10%, transparent) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+  transition: background 0.4s ease;
 }
 
 .main {
   max-width: 1400px;
   margin: 0 auto;
-  position: relative;
-  z-index: 1;
+}
+
+/* ── Floating Battle Team FAB — always visible ── */
+.fab {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  background: #2563EB;
+  box-shadow: 0 4px 16px color-mix(in srgb, #2563EB 40%, transparent),
+              0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background 0.15s, box-shadow 0.15s, filter 0.15s;
+}
+
+.fab:hover {
+  background: #64748B;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+  filter: none;
+}
+
+.fab:hover .fabBadge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.fabFull {
+  animation: fabPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes fabPulse {
+  0%, 100% { box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary) 40%, transparent); }
+  50%       { box-shadow: 0 4px 28px color-mix(in srgb, var(--color-primary) 65%, transparent); }
+}
+
+.fabBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding: 0 0.3rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
 }
