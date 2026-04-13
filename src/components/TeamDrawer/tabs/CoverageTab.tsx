@@ -43,7 +43,14 @@ export function CoverageTab({ members }: CoverageTabProps) {
       <p className={styles.sectionTitle}>Type Coverage</p>
       <div className={styles.chips}>
         {entries.map(([name, { count, color }]) => (
-          <div key={name} className={styles.chip}>
+          <div
+            key={name}
+            className={styles.chip}
+            style={{
+              backgroundColor: `color-mix(in srgb, ${color} 12%, #ffffff)`,
+              border: `1px solid color-mix(in srgb, ${color} 30%, transparent)`,
+            }}
+          >
             <span className={styles.dot} style={{ backgroundColor: color }} />
             <span className={styles.chipName}>{name}</span>
             <span className={styles.chipCount}>{count}</span>
