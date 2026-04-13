@@ -1,19 +1,3 @@
-/**
- * LandingPage.tsx — Full-screen hero that matches the Figma cover design.
- *
- * Design:
- *   - Deep purple starry background (CSS gradient + generated star field)
- *   - Top-left: small "Pocket Pokédex" + "Ready to Explore" tags (matching Figma badges)
- *   - Large bold left-aligned title
- *   - Subtitle paragraph
- *   - "Start Exploring" CTA button → calls onStart() to reveal the main app
- *
- * Animations (framer-motion):
- *   - Stars: fade in on mount
- *   - Tags, title, subtitle, button: staggered slide-up entrance
- *   - Button: hover scale + tap press
- *   - Exit: whole page fades out when onStart is clicked
- */
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';

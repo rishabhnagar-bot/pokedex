@@ -1,17 +1,3 @@
-/**
- * pokemonApi.ts — All functions that talk to the PokeAPI.
- *
- * This is the only file in the project that makes fetch() calls to the
- * external API. Keeping all network logic here makes it easy to swap
- * the API client (e.g. axios, react-query fetcher) later without
- * touching components or hooks.
- *
- * Each function:
- *   1. Fetches the raw API response.
- *   2. Transforms it into a clean domain type from src/types/pokemon.ts.
- *   3. Returns the clean type — callers never see raw API shapes.
- */
-
 import type {
   RawPokemonListResponse,
   RawPokemonDetail,
@@ -21,53 +7,27 @@ import type {
 } from '../types/api';
 import type { PokemonListItem, PokemonDetail, PokemonType, EvolutionStage } from '../types/pokemon';
 import { TYPE_COLORS } from '../utils/typeColors';
+import { POKEAPI_BASE } from '../utils/constants';
 
-const BASE_URL = 'https://pokeapi.co/api/v2';
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-/** Extract the numeric ID from a PokeAPI resource URL */
 function idFromUrl(url: string): number {
   const parts = url.replace(/\/$/, '').split('/');
   return Number(parts[parts.length - 1]);
 }
 
-/** Build a PokemonType with its display color */
 function buildType(name: string): PokemonType {
-  return {
-    name,
-    color: TYPE_COLORS[name] ?? '#777',
-  };
+  return { name, color: TYPE_COLORS[name] ?? '#777' };
 }
 
-// ---------------------------------------------------------------------------
-// API functions
-// ---------------------------------------------------------------------------
-
-/**
- * fetchPokemonList
- * GET /pokemon?limit=40&offset=0
- *
- * Returns a lightweight list of Pokémon (id, name, sprite, types).
- * The list endpoint doesn't include types/sprites, so we fire parallel
- * detail requests for each item on the page. Cached by the browser after
- * the first load because PokeAPI sets long cache-control headers.
- *
- * @param limit  - Number of Pokémon per page (default 40)
- * @param offset - Pagination offset
- */
 export async function fetchPokemonList(
   limit = 40,
   offset = 0
 ): Promise<{ items: PokemonListItem[]; total: number }> {
-  const res = await fetch(`${BASE_URL}/pokemon?limit=${limit}&offset=${offset}`);
+  const res = await fetch(`${POKEAPI_BASE}/pokemon?limit=${limit}&offset=${offset}`);
   if (!res.ok) throw new Error(`Failed to fetch Pokémon list (${res.status})`);
 
   const data: RawPokemonListResponse = await res.json();
 
-  // Fetch minimal detail (types + sprite) for each result in parallel
+  // Fetch types + sprite for each item in parallel (list endpoint doesn't include them)
   const items = await Promise.all(
     data.results.map(async (entry) => {
       const id = idFromUrl(entry.url);
@@ -79,13 +39,6 @@ export async function fetchPokemonList(
   return { items, total: data.count };
 }
 
-/**
- * fetchPokemonDetail
- * GET /pokemon/{id}  +  GET /pokemon-species/{id}
- *
- * Returns the full PokemonDetail including stats, moves, abilities,
- * and flavor text from the species endpoint.
- */
 export async function fetchPokemonDetail(idOrName: string | number): Promise<PokemonDetail> {
   const [detail, species] = await Promise.all([
     fetchRawDetail(String(idOrName)),
@@ -95,11 +48,7 @@ export async function fetchPokemonDetail(idOrName: string | number): Promise<Pok
   const listItem = rawDetailToListItem(detail);
   const flavorText = extractFlavorText(species);
   const genus = extractGenus(species);
-
-  // Fetch evolution chain
-  const evoChainUrl = species.evolution_chain.url;
-  const evolutionChain = await fetchEvolutionChain(evoChainUrl);
-
+  const evolutionChain = await fetchEvolutionChain(species.evolution_chain.url);
   const hiddenAbilityEntry = detail.abilities.find((a) => a.is_hidden);
 
   return {
@@ -109,10 +58,7 @@ export async function fetchPokemonDetail(idOrName: string | number): Promise<Pok
     baseExperience: detail.base_experience,
     abilities: detail.abilities.filter((a) => !a.is_hidden).map((a) => a.ability.name),
     hiddenAbility: hiddenAbilityEntry?.ability.name ?? null,
-    stats: detail.stats.map((s) => ({
-      name: s.stat.name,
-      baseStat: s.base_stat,
-    })),
+    stats: detail.stats.map((s) => ({ name: s.stat.name, baseStat: s.base_stat })),
     moves: detail.moves.map((m) => ({
       name: m.move.name,
       levelLearnedAt: m.version_group_details[0]?.level_learned_at ?? 0,
@@ -126,37 +72,26 @@ export async function fetchPokemonDetail(idOrName: string | number): Promise<Pok
   };
 }
 
-/**
- * fetchPokemonTypes
- * GET /type
- *
- * Returns all available Pokémon types for the filter chips.
- * We exclude utility types like "unknown" and "shadow".
- */
+// Excludes utility types (unknown, shadow) that aren't real game types
 export async function fetchPokemonTypes(): Promise<PokemonType[]> {
-  const res = await fetch(`${BASE_URL}/type`);
+  const res = await fetch(`${POKEAPI_BASE}/type`);
   if (!res.ok) throw new Error(`Failed to fetch types (${res.status})`);
 
   const data: RawTypeListResponse = await res.json();
-
   return data.results
     .filter((t) => t.name !== 'unknown' && t.name !== 'shadow')
     .map((t) => buildType(t.name));
 }
 
-// ---------------------------------------------------------------------------
-// Private helpers (not exported)
-// ---------------------------------------------------------------------------
-
 async function fetchRawDetail(idOrName: string): Promise<RawPokemonDetail> {
-  const res = await fetch(`${BASE_URL}/pokemon/${idOrName}`);
-  if (!res.ok) throw new Error(`Failed to fetch Pokémon detail for "${idOrName}" (${res.status})`);
+  const res = await fetch(`${POKEAPI_BASE}/pokemon/${idOrName}`);
+  if (!res.ok) throw new Error(`Failed to fetch Pokémon "${idOrName}" (${res.status})`);
   return res.json();
 }
 
 async function fetchRawSpecies(idOrName: string): Promise<RawPokemonSpecies> {
-  const res = await fetch(`${BASE_URL}/pokemon-species/${idOrName}`);
-  if (!res.ok) throw new Error(`Failed to fetch species for "${idOrName}" (${res.status})`);
+  const res = await fetch(`${POKEAPI_BASE}/pokemon-species/${idOrName}`);
+  if (!res.ok) throw new Error(`Failed to fetch species "${idOrName}" (${res.status})`);
   return res.json();
 }
 
@@ -165,20 +100,18 @@ async function fetchEvolutionChain(url: string): Promise<EvolutionStage[]> {
   if (!res.ok) return [];
   const data: { chain: RawChainLink } = await res.json();
 
-  // Flatten the nested chain into an ordered array
   const stages: EvolutionStage[] = [];
+
   const walk = async (link: RawChainLink, minLevel: number | null) => {
     const id = idFromUrl(link.species.url);
     try {
       const raw = await fetchRawDetail(String(id));
-      const item = rawDetailToListItem(raw);
-      stages.push({ ...item, minLevel });
+      stages.push({ ...rawDetailToListItem(raw), minLevel });
     } catch {
       // skip stages we can't fetch
     }
     for (const next of link.evolves_to) {
-      const level = next.evolution_details[0]?.min_level ?? null;
-      await walk(next, level);
+      await walk(next, next.evolution_details[0]?.min_level ?? null);
     }
   };
 
@@ -200,7 +133,6 @@ function rawDetailToListItem(detail: RawPokemonDetail): PokemonListItem {
 
 function extractFlavorText(species: RawPokemonSpecies): string {
   const entry = species.flavor_text_entries.find((e) => e.language.name === 'en');
-  // Clean up escape characters the API embeds in flavor text
   return entry?.flavor_text.replace(/[\n\f\r]/g, ' ') ?? '';
 }
 

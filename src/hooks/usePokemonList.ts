@@ -1,19 +1,3 @@
-/**
- * usePokemonList.ts — Fetches and paginates the main Pokémon gallery.
- *
- * Responsibilities:
- *   - Load the first page on mount.
- *   - Expose a `loadMore` function that appends the next 40 Pokémon.
- *   - Track loading and error states.
- *   - Track whether there are more pages to load (for the "Load More" button).
- *
- * The hook does NOT handle type filtering — that is done client-side
- * by the useTypeFilter hook which wraps the output of this hook.
- *
- * Usage:
- *   const { pokemon, isLoading, error, loadMore, hasMore } = usePokemonList();
- */
-
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { fetchPokemonList } from '../api';
 import type { PokemonListItem } from '../types';
@@ -22,7 +6,6 @@ import { PAGE_SIZE } from '../utils/constants';
 interface UsePokemonListReturn {
   pokemon: PokemonListItem[];
   isLoading: boolean;
-  /** True only during the initial load (not during "load more") */
   isInitialLoading: boolean;
   error: string | null;
   hasMore: boolean;
@@ -36,8 +19,7 @@ export function usePokemonList(): UsePokemonListReturn {
   const [error, setError] = useState<string | null>(null);
   const [total, setTotal] = useState<number>(0);
 
-  // Use a ref for offset so loadMore always captures the latest value
-  // without needing to be in the dependency array.
+  // Ref so loadMore always sees the latest offset without needing it as a dep
   const offsetRef = useRef(0);
 
   const load = useCallback(async (offset: number, isInitial: boolean) => {
@@ -58,18 +40,13 @@ export function usePokemonList(): UsePokemonListReturn {
     }
   }, []);
 
-  // Load first page on mount
   useEffect(() => {
     load(0, true);
   }, [load]);
 
   const loadMore = useCallback(() => {
-    if (!isLoading) {
-      load(offsetRef.current, false);
-    }
+    if (!isLoading) load(offsetRef.current, false);
   }, [isLoading, load]);
 
-  const hasMore = pokemon.length < total;
-
-  return { pokemon, isLoading, isInitialLoading, error, hasMore, loadMore };
+  return { pokemon, isLoading, isInitialLoading, error, hasMore: pokemon.length < total, loadMore };
 }

@@ -1,3 +1,4 @@
+import { Swords } from 'lucide-react';
 import type { TeamMember } from '../../../types';
 import { MAX_TEAM_SIZE } from '../../../utils/constants';
 import styles from './CoverageTab.module.css';
@@ -10,11 +11,7 @@ export function CoverageTab({ members }: CoverageTabProps) {
   if (members.length === 0) {
     return (
       <div className={styles.emptyState}>
-        {/* swords icon */}
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-          <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/>
-          <polyline points="16 16 20 20 20 22 22 22 22 20 20 20"/><line x1="20" y1="4" x2="4" y2="20"/>
-        </svg>
+        <Swords size={40} strokeWidth={1.5} aria-hidden />
         <p className={styles.emptyTitle}>No type coverage</p>
         <p className={styles.emptySubtitle}>Add Pokémon to your team to see type coverage</p>
       </div>

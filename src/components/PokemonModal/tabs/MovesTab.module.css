@@ -9,9 +9,9 @@
 }
 
 .groupLabel {
-  font-size: 0.72rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  color: var(--color-text-muted);
+  color: #111827;
   text-transform: none;
   margin: 0 0 0.25rem;
   padding: 0;

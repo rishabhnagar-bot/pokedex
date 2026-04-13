@@ -1,16 +1,27 @@
+import type { ReactNode } from 'react';
 import type { PokemonMove } from '../../../types';
+import { formatName as fmt } from '../../../utils/statHelpers';
 import styles from './MovesTab.module.css';
 
 interface MovesTabProps {
   moves: PokemonMove[];
 }
 
+function MoveRow({ move, meta }: { move: PokemonMove; meta: ReactNode }) {
+  return (
+    <div className={styles.row}>
+      <span className={styles.moveName}>{fmt(move.name)}</span>
+      {meta}
+    </div>
+  );
+}
+
 export function MovesTab({ moves }: MovesTabProps) {
-  const levelUpMoves = [...moves]
+  const levelUpMoves = moves
     .filter((m) => m.learnMethod === 'level-up')
     .sort((a, b) => a.levelLearnedAt - b.levelLearnedAt);
 
-  const otherMoves = [...moves]
+  const otherMoves = moves
     .filter((m) => m.learnMethod !== 'level-up')
     .sort((a, b) => a.name.localeCompare(b.name));
 
@@ -20,10 +31,11 @@ export function MovesTab({ moves }: MovesTabProps) {
         <section>
           <p className={styles.groupLabel}>Level-up Moves</p>
           {levelUpMoves.map((move) => (
-            <div key={move.name} className={styles.row}>
-              <span className={styles.moveName}>{move.name.replace(/-/g, ' ')}</span>
-              <span className={styles.level}>Level {move.levelLearnedAt}</span>
-            </div>
+            <MoveRow
+              key={move.name}
+              move={move}
+              meta={<span className={styles.level}>Level {move.levelLearnedAt}</span>}
+            />
           ))}
         </section>
       )}
@@ -32,10 +44,11 @@ export function MovesTab({ moves }: MovesTabProps) {
         <section className={styles.section}>
           <p className={styles.groupLabel}>Other Moves</p>
           {otherMoves.map((move) => (
-            <div key={move.name} className={styles.row}>
-              <span className={styles.moveName}>{move.name.replace(/-/g, ' ')}</span>
-              <span className={styles.method}>{move.learnMethod.replace(/-/g, ' ')}</span>
-            </div>
+            <MoveRow
+              key={move.name}
+              move={move}
+              meta={<span className={styles.method}>{fmt(move.learnMethod)}</span>}
+            />
           ))}
         </section>
       )}

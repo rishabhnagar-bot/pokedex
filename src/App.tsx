@@ -1,17 +1,3 @@
-/**
- * App.tsx — Application root and page router.
- *
- * Two views:
- *   'landing' — full-screen hero (LandingPage)
- *   'home'    — main Pokédex grid (HomePage)
- *
- * Providers are mounted OUTSIDE the view switch so that team and theme
- * state persist when the user navigates back to the landing page and
- * returns to the grid — their team is still intact.
- *
- * On browser refresh: useState resets to 'landing' and all context
- * state (team, theme) reinitialises to defaults automatically.
- */
 
 import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
@@ -23,16 +9,23 @@ import { HomePage } from './pages/HomePage';
 type View = 'landing' | 'home';
 
 function App() {
-  const [view, setView] = useState<View>('landing');
+  const [view, setView] = useState<View>(
+    () => (sessionStorage.getItem('view') as View) ?? 'landing'
+  );
+
+  const navigate = (v: View) => {
+    sessionStorage.setItem('view', v);
+    setView(v);
+  };
 
   return (
     <ThemeProvider>
       <TeamProvider>
         <AnimatePresence mode="wait">
           {view === 'landing' ? (
-            <LandingPage key="landing" onStart={() => setView('home')} />
+            <LandingPage key="landing" onStart={() => navigate('home')} />
           ) : (
-            <HomePage key="home" onBack={() => setView('landing')} />
+            <HomePage key="home" onBack={() => navigate('landing')} />
           )}
         </AnimatePresence>
       </TeamProvider>

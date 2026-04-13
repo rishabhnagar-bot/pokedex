@@ -1,3 +1,4 @@
+import { Users } from 'lucide-react';
 import type { TeamMember } from '../../../types';
 import { MAX_TEAM_SIZE } from '../../../utils/constants';
 import styles from './TeamTab.module.css';
@@ -39,12 +40,7 @@ export function TeamTab({ members, onRemove, onClear }: TeamTabProps) {
       {/* Empty state */}
       {members.length === 0 && (
         <div className={styles.emptyState}>
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" aria-hidden className={styles.emptyIcon}>
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
+          <Users size={40} strokeWidth={1.5} aria-hidden className={styles.emptyIcon} />
           <p className={styles.emptyTitle}>Your team is empty</p>
           <p className={styles.emptySubtitle}>Add Pokémon from the browser to build your team</p>
         </div>

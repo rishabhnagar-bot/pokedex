@@ -54,7 +54,7 @@
 
 .barFill {
   height: 100%;
-  background-color: #3b82f6;
+  background-color: #2563EB;
   border-radius: 9999px;
   transition: width 0.45s ease;
 }

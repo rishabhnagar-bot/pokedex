@@ -52,7 +52,7 @@
 
 .barFill {
   height: 100%;
-  background-color: #1e293b;
+  background-color: #0F172A;
   border-radius: 9999px;
   transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }

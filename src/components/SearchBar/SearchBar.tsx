@@ -1,10 +1,4 @@
-/**
- * SearchBar.tsx — Fuzzy search input for the Pokémon grid.
- *
- * Designed to sit inside the sticky TypeFilter bar as a second row.
- * Theme-aware: adapts between dark HUD and light mode.
- */
-
+import { Search } from 'lucide-react';
 import styles from './SearchBar.module.css';
 
 interface SearchBarProps {
@@ -19,10 +13,7 @@ export function SearchBar({ query, onChange, resultCount, hasQuery }: SearchBarP
     <div className={styles.wrapper}>
       <div className={styles.inputRow}>
         <span className={styles.icon} aria-hidden>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
+          <Search size={16} strokeWidth={2.5} />
         </span>
 
         <input

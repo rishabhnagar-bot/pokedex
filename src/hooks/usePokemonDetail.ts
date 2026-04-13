@@ -1,16 +1,3 @@
-/**
- * usePokemonDetail.ts — Fetches full detail for a single Pokémon.
- *
- * Called when the user clicks a card and the detail modal opens.
- * Caches previously loaded Pokémon in a ref so re-opening the same
- * modal doesn't trigger a new network request.
- *
- * Usage:
- *   const { detail, isLoading, error } = usePokemonDetail(selectedId);
- *
- * Pass `null` as the id when no Pokémon is selected (modal is closed).
- */
-
 import { useEffect, useRef, useState } from 'react';
 import { fetchPokemonDetail } from '../api';
 import type { PokemonDetail } from '../types';
@@ -26,7 +13,7 @@ export function usePokemonDetail(idOrName: number | string | null): UsePokemonDe
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Simple in-memory cache: map of id/name → PokemonDetail
+  // Simple in-memory cache so reopening the same modal skips the network
   const cache = useRef<Map<string, PokemonDetail>>(new Map());
 
   useEffect(() => {
@@ -36,8 +23,6 @@ export function usePokemonDetail(idOrName: number | string | null): UsePokemonDe
     }
 
     const key = String(idOrName);
-
-    // Serve from cache if available
     if (cache.current.has(key)) {
       setDetail(cache.current.get(key)!);
       return;
@@ -48,7 +33,6 @@ export function usePokemonDetail(idOrName: number | string | null): UsePokemonDe
     const load = async () => {
       setIsLoading(true);
       setError(null);
-
       try {
         const data = await fetchPokemonDetail(idOrName);
         cache.current.set(key, data);
@@ -61,11 +45,7 @@ export function usePokemonDetail(idOrName: number | string | null): UsePokemonDe
     };
 
     load();
-
-    // Cleanup: ignore stale responses if the id changes quickly
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [idOrName]);
 
   return { detail, isLoading, error };
