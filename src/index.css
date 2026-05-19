@@ -172,3 +172,11 @@ body {
 #root {
   min-height: 100vh;
 }
+
+/* Form elements don't inherit font-family by default — opt them in */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}

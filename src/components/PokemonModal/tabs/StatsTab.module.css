@@ -78,3 +78,25 @@
   font-weight: 700;
   color: #111827;
 }
+
+/* ── Dark theme ─────────────────────────────────────────── */
+[data-theme='dark'] .statItem {
+  border-bottom-color: var(--color-border);
+}
+[data-theme='dark'] .label,
+[data-theme='dark'] .totalLabel {
+  color: var(--color-text-muted);
+}
+[data-theme='dark'] .value,
+[data-theme='dark'] .totalValue {
+  color: var(--color-text);
+}
+[data-theme='dark'] .barTrack {
+  background-color: var(--color-border);
+}
+[data-theme='dark'] .barFill {
+  background-color: var(--color-primary);
+}
+[data-theme='dark'] .totalRow {
+  border-top-color: var(--color-border);
+}

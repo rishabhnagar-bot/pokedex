@@ -43,3 +43,19 @@
   min-height: 160px;
   padding: 0 1rem 1rem;
 }
+
+/* ── Dark theme ─────────────────────────────────────────── */
+[data-theme='dark'] .tabList {
+  background: var(--color-bg);
+}
+[data-theme='dark'] .tab {
+  color: var(--color-text-muted);
+}
+[data-theme='dark'] .tab:hover {
+  color: var(--color-text);
+}
+[data-theme='dark'] .tabActive {
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}

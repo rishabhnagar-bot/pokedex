@@ -111,3 +111,22 @@
   border-radius: 0.875rem;
   overflow: visible;
 }
+
+/* ── Dark theme ─────────────────────────────────────────── */
+[data-theme='dark'] .heroCard {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+}
+[data-theme='dark'] .name {
+  color: var(--color-text);
+}
+[data-theme='dark'] .qLabel {
+  color: var(--color-text-muted);
+}
+[data-theme='dark'] .qValue {
+  color: var(--color-text);
+}
+[data-theme='dark'] .tabsCard {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}

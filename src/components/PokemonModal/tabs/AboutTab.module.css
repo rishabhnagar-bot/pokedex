@@ -158,3 +158,27 @@
   user-select: none;
   align-self: flex-start;
 }
+
+/* ── Dark theme ─────────────────────────────────────────── */
+[data-theme='dark'] .iconBox {
+  background: var(--color-bg);
+  color: var(--color-primary);
+}
+[data-theme='dark'] .sectionTitle,
+[data-theme='dark'] .gridValue,
+[data-theme='dark'] .evoName {
+  color: var(--color-text);
+}
+[data-theme='dark'] .flavorText {
+  color: var(--color-text-muted);
+}
+[data-theme='dark'] .gridLabel,
+[data-theme='dark'] .evoArrow,
+[data-theme='dark'] .evoLevel {
+  color: var(--color-text-muted);
+}
+[data-theme='dark'] .genusChip {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+  color: var(--color-primary);
+}

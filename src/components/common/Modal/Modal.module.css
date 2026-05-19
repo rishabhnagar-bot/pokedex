@@ -71,6 +71,26 @@
   color: #374151;
 }
 
+/* ── Dark theme ─────────────────────────────────────────── */
+[data-theme='dark'] .panel {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  scrollbar-color: var(--color-border) transparent;
+}
+[data-theme='dark'] .panel::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+}
+[data-theme='dark'] .panelTitle {
+  color: var(--color-text);
+}
+[data-theme='dark'] .closeBtn {
+  color: var(--color-text-muted);
+}
+[data-theme='dark'] .closeBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+}
+
 /* Bottom-sheet on mobile */
 @media (max-width: 480px) {
   .backdrop {

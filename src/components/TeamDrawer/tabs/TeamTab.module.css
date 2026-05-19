@@ -125,3 +125,39 @@
   background: #fef2f2;
   color: #ef4444;
 }
+
+/* ── Dark theme ─────────────────────────────────────────── */
+[data-theme='dark'] .slotEmpty {
+  border-color: var(--color-border);
+  background: var(--color-bg);
+}
+[data-theme='dark'] .slotPlus {
+  color: var(--color-text-muted);
+}
+[data-theme='dark'] .slotFilled {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+[data-theme='dark'] .slotFilled:hover {
+  border-color: #b91c1c;
+  background: rgba(239, 68, 68, 0.12);
+}
+[data-theme='dark'] .emptyIcon {
+  color: var(--color-text-muted);
+}
+[data-theme='dark'] .emptyTitle {
+  color: var(--color-text);
+}
+[data-theme='dark'] .emptySubtitle {
+  color: var(--color-text-muted);
+}
+[data-theme='dark'] .clearBtn {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+[data-theme='dark'] .clearBtn:hover {
+  border-color: #b91c1c;
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+}

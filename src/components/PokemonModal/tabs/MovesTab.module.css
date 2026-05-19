@@ -52,3 +52,11 @@
   white-space: nowrap;
   flex-shrink: 0;
 }
+
+/* ── Dark theme ─────────────────────────────────────────── */
+[data-theme='dark'] .groupLabel {
+  color: var(--color-text);
+}
+[data-theme='dark'] .level {
+  color: var(--color-text-muted);
+}

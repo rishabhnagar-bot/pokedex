@@ -15,7 +15,7 @@
   flex-direction: column;
   background-color: var(--color-surface);
   border: 1.5px solid var(--color-border);
-  border-radius: 1rem;
+  border-radius: 0.625rem;
   padding: 0.85rem 0.9rem;
   gap: 0.6rem;
   cursor: pointer;
@@ -178,4 +178,18 @@
   border-color: #f59e0b;
   color: #d97706;
   background: #fffbeb;
+}
+
+/* ── Dark theme — action buttons ── */
+[data-theme='dark'] .iconBtn {
+  background: var(--color-surface);
+}
+[data-theme='dark'] .iconBtnAdd {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-primary);
+}
+[data-theme='dark'] .iconBtnAdd:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: var(--color-primary);
 }
