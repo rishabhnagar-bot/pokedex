@@ -3,7 +3,7 @@
   position: sticky;
   top: 5rem;
   z-index: 99;
-  background: var(--color-surface);
+  background: var(--color-bg);
   border-bottom: none;
   padding: 0.65rem 2rem 0.75rem;
 }

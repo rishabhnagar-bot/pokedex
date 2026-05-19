@@ -12,7 +12,7 @@ function App() {
   const [view, setView] = useState<View>(
     () => (sessionStorage.getItem('view') as View) ?? 'landing'
   );
-
+  // sessionStorage is used to persist the current view across page reloads, so users don't lose their place if they accidentally refresh while on the HomePage. The 'view' state is initialized from sessionStorage, defaulting to 'landing' if no value is found.
   const navigate = (v: View) => {
     sessionStorage.setItem('view', v);
     setView(v);

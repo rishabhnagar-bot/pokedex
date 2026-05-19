@@ -85,11 +85,11 @@
 /* ── Image wrapper ── */
 .imageWrapper {
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: 1.35;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-surface-alt);
+  background-color: var(--color-surface);
   border-radius: 0.75rem;
   overflow: hidden;
   transition: background-color 0.18s ease;
@@ -107,6 +107,13 @@
   width: 80%;
   height: 80%;
   object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* Tilt anti-clockwise on hover, settle back on un-hover */
+.card:hover .sprite,
+.card:focus-visible .sprite {
+  transform: rotate(-5deg);
 }
 
 /* ── Footer row: types + action button ── */
@@ -143,13 +150,20 @@
   justify-content: center;
   padding: 0;
   color: #6b7280;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  transition: border-color 0.15s, color 0.15s, background 0.15s, box-shadow 0.15s;
 }
 
+/* Add button — white fill, blue "+" and pale border */
+.iconBtnAdd {
+  background: #ffffff;
+  border-color: #E2E8F0;
+  color: var(--color-primary);
+}
 .iconBtnAdd:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-primary) 6%, #ffffff);
   border-color: var(--color-primary);
   color: var(--color-primary);
-  background: #ffffff;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 20%, transparent);
 }
 .iconBtnAdd:disabled {
   opacity: 0.3;
